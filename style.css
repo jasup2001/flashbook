@@ -1,7 +1,8 @@
+/* TŁO + TYPOGRAFIA */
 body {
     background: #0b0b0b;
     margin: 0;
-    font-family: sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: #eee;
 }
 
@@ -15,48 +16,49 @@ header img {
     height: 120px;
 }
 
-/* SIATKA 2 KOLUMNOWA */
+/* --- WERSJA DOMYŚLNA = TELEFON (MOBILE-FIRST) --- */
+/* 1 kolumna, obrazki w całości (bez cropa) */
+
 .grid {
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr;   /* 1 kolumna na start */
+    gap: 16px;
 }
 
-/* KAFELKI */
 .card {
-    height: 500px;               /* stała wysokość */
-    overflow: hidden;
     background: #111;
     border-radius: 16px;
+    overflow: hidden;
 }
 
-/* OBRAZY WYPEŁNIAJĄ KAFEL */
 .card img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;           /* magiczny crop */
+    height: auto;                 /* wysokość z proporcji */
+    object-fit: contain;          /* CAŁY obrazek, bez ucinania */
     display: block;
 }
 
-/* WERSJA MOBILNA – max 600px szerokości */
-@media (max-width: 600px) {
+/* --- WERSJA DESKTOP / SZEROKIE EKRANY --- */
+/* 2 kolumny, równe kafelki, estetyczny crop */
+
+@media (min-width: 768px) {
 
     .grid {
-        max-width: 100%;
-        grid-template-columns: 1fr;   /* jedna kolumna */
-        gap: 16px;
-        padding: 10px;
+        max-width: 900px;
+        padding: 20px;
+        grid-template-columns: 1fr 1fr;   /* 2 kolumny */
+        gap: 20px;
     }
 
     .card {
-        height: auto;                 /* brak stałej wysokości */
+        height: 500px;                     /* stała wysokość kafla */
     }
 
     .card img {
-        height: auto;
-        object-fit: contain;          /* pokazujemy całe zdjęcie */
+        height: 100%;
+        object-fit: cover;                 /* wypełnia kafel, lekko przycina */
     }
 }
