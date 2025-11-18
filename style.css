@@ -1,4 +1,4 @@
-/* TŁO + TYPOGRAFIA */
+/* TŁO + FONT */
 body {
     background: #0b0b0b;
     margin: 0;
@@ -16,49 +16,35 @@ header img {
     height: 120px;
 }
 
-/* --- WERSJA DOMYŚLNA = TELEFON (MOBILE-FIRST) --- */
-/* 1 kolumna, obrazki w całości (bez cropa) */
-
+/* SIATKA – MOBILE FIRST: 1 kolumna */
 .grid {
-    max-width: 100%;
+    max-width: 900px;
     margin: 0 auto;
     padding: 10px;
     display: grid;
-    grid-template-columns: 1fr;   /* 1 kolumna na start */
+    grid-template-columns: 1fr;   /* telefon: 1 kolumna */
     gap: 16px;
 }
 
+/* KAFEL – BEZ STAŁEJ WYSOKOŚCI */
 .card {
     background: #111;
     border-radius: 16px;
     overflow: hidden;
 }
 
+/* OBRAZEK W CAŁOŚCI, BEZ CROP */
 .card img {
     width: 100%;
-    height: auto;                 /* wysokość z proporcji */
-    object-fit: contain;          /* CAŁY obrazek, bez ucinania */
+    height: auto;       /* wysokość z proporcji A4 */
     display: block;
 }
 
-/* --- WERSJA DESKTOP / SZEROKIE EKRANY --- */
-/* 2 kolumny, równe kafelki, estetyczny crop */
-
+/* DESKTOP: 2 KOLUMNY, NADAL BEZ CROP */
 @media (min-width: 768px) {
-
     .grid {
-        max-width: 900px;
         padding: 20px;
-        grid-template-columns: 1fr 1fr;   /* 2 kolumny */
+        grid-template-columns: 1fr 1fr;   /* 2 kolumny na szerokich ekranach */
         gap: 20px;
-    }
-
-    .card {
-        height: 500px;                     /* stała wysokość kafla */
-    }
-
-    .card img {
-        height: 100%;
-        object-fit: cover;                 /* wypełnia kafel, lekko przycina */
     }
 }
