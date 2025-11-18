@@ -17,7 +17,6 @@ layout: none
         header {
             padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #333;
         }
         header img {
             height: 80px;
