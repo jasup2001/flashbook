@@ -4,36 +4,10 @@ layout: none
 
 <!DOCTYPE html>
 <html lang="pl">
-<link rel="stylesheet" href="style.css">
 <head>
     <meta charset="UTF-8">
     <title>Flashbook</title>
-    <style>
-        body {
-            background: #111;
-            margin: 0;
-            font-family: sans-serif;
-            color: #eee;
-        }
-        header {
-            padding: 20px;
-            text-align: center;
-        }
-        header img {
-            height: 120px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .grid img {
-            width: 100%;
-            border-radius: 10px;
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -44,7 +18,9 @@ layout: none
 <div class="grid">
 {% for file in site.static_files %}
   {% if file.path contains '/img/' %}
-    <img src="{{ file.path | relative_url }}" alt="">
+    <div class="card">
+        <img src="{{ file.path | relative_url }}">
+    </div>
   {% endif %}
 {% endfor %}
 </div>
