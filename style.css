@@ -15,6 +15,14 @@ header img {
     width: auto;
 }
 
+.logo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 40px auto;
+}
+
 /* Grid – na telefonie 1 kolumna */
 .grid {
     max-width: 1200px;
