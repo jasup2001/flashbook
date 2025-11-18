@@ -40,3 +40,23 @@ header img {
     object-fit: cover;           /* magiczny crop */
     display: block;
 }
+
+/* WERSJA MOBILNA – max 600px szerokości */
+@media (max-width: 600px) {
+
+    .grid {
+        max-width: 100%;
+        grid-template-columns: 1fr;   /* jedna kolumna */
+        gap: 16px;
+        padding: 10px;
+    }
+
+    .card {
+        height: auto;                 /* brak stałej wysokości */
+    }
+
+    .card img {
+        height: auto;
+        object-fit: contain;          /* pokazujemy całe zdjęcie */
+    }
+}
