@@ -40,9 +40,24 @@ header img {
     object-fit: contain !important;
 }
 
-/* Na desktopie: 2 kolumny */
-@media (min-width: 768px) {
+/* Widok mobilny — żadnego przycinania, pełne obrazy */
+@media (max-width: 600px) {
+
     .grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr; /* jedna kolumna */
+        gap: 20px;
+    }
+
+    .card {
+        width: 100%;
+        padding: 0;
+        overflow: visible; /* nic nie ucinamy */
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;      /* najważniejsze */
+        object-fit: contain;
+        display: block;
     }
 }
