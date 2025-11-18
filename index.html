@@ -11,18 +11,22 @@ layout: none
 </head>
 <body>
 
-<header>
-    <img src="logo.png" alt="Logo">
-</header>
+<a href="https://www.instagram.com/jasup2001/" target="_blank">
+    <img class="logo" src="logo.png" alt="Logo">
+</a>
+
 
 <div class="grid">
-{% for file in site.static_files %}
-  {% if file.path contains '/img/' %}
+{% for image in site.static_files %}
+  {% if image.path contains '/img/' %}
     <div class="card">
-        <img src="{{ file.path | relative_url }}">
+      <a href="{{ image.path }}" target="_blank">
+        <img src="{{ image.path }}" alt="">
+      </a>
     </div>
   {% endif %}
 {% endfor %}
+
 </div>
 
 </body>
