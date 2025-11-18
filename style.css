@@ -31,10 +31,9 @@ header {
 
 /* KAFELKI */
 .card {
-    background: #111;
-    border-radius: 16px;
-    overflow: hidden;
+    background: transparent;
 }
+
 
 /* OBRAZY – pełne, bez crop, proporcje A4 */
 .card img {
