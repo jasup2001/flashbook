@@ -1,71 +1,52 @@
-/* Kolor tła + reset marginesów */
+/* Tło + reset marginesów */
 body {
     background: #111;
     margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Logo na górze */
+/* NAGŁÓWEK + LOGO */
 header {
     text-align: center;
-    padding: 20px 0;
-}
-
-header img {
-    height: 120px; 
-    width: auto;
+    padding: 10px 0 20px;
 }
 
 .logo {
-    width: 100%;
+    display: block;
+    margin: 0 auto;
     max-width: 100%;
     height: auto;
-    display: block;
-    margin: 0 auto 40px auto;
+    max-height: 180px;   /* klucz – logo nie urośnie ponad ~180 px */
 }
 
-/* Grid – na telefonie 1 kolumna */
+/* GRID – domyślnie 1 kolumna (mobile-first) */
 .grid {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px 20px;
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 }
 
-/* Karta – bez narzucania wysokości */
+/* KAFELKI */
 .card {
     background: #111;
     border-radius: 16px;
     overflow: hidden;
 }
 
-/* Obrazek — ZAWSZE pełny, bez-crop, zgodnie z proporcjami A4 */
+/* OBRAZY – pełne, bez crop, proporcje A4 */
 .card img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: contain !important;
+    object-fit: contain;
 }
 
-/* Widok mobilny — żadnego przycinania, pełne obrazy */
-@media (max-width: 600px) {
-
+/* DESKTOP: 2 kolumny */
+@media (min-width: 768px) {
     .grid {
-        grid-template-columns: 1fr; /* jedna kolumna */
-        gap: 20px;
-    }
-
-    .card {
-        width: 100%;
-        padding: 0;
-        overflow: visible; /* nic nie ucinamy */
-    }
-
-    .card img {
-        width: 100%;
-        height: auto;      /* najważniejsze */
-        object-fit: contain;
-        display: block;
+        grid-template-columns: 1fr 1fr;
     }
 }
