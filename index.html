@@ -7,27 +7,30 @@ layout: none
 <head>
     <meta charset="UTF-8">
     <title>Flashbook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<a href="https://www.instagram.com/jasup2001/" target="_blank">
-    <img class="logo" src="logo.png" alt="Logo">
-</a>
+<header>
+    <a href="https://www.instagram.com/jasup2001/" target="_blank" rel="noopener">
+        <img class="logo" src="logo.png" alt="Logo">
+    </a>
+</header>
 
-
-<div class="grid">
-{% for image in site.static_files %}
-  {% if image.path contains '/img/' %}
-    <div class="card">
-      <a href="{{ image.path }}" target="_blank">
-        <img src="{{ image.path }}" alt="">
-      </a>
+<main>
+    <div class="grid">
+    {% for image in site.static_files %}
+      {% if image.path contains '/img/' %}
+        <div class="card">
+          <a href="{{ image.path | relative_url }}" target="_blank" rel="noopener">
+            <img src="{{ image.path | relative_url }}" alt="">
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
     </div>
-  {% endif %}
-{% endfor %}
-
-</div>
+</main>
 
 </body>
 </html>
