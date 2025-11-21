@@ -16,7 +16,7 @@ header {
     margin: 0 auto;
     max-width: 100%;
     height: auto;
-    max-height: 400px;   /* klucz – logo nie urośnie ponad ~180 px */
+    max-height: 750px;   /* klucz – logo nie urośnie ponad ~180 px */
 }
 
 /* GRID – domyślnie 1 kolumna (mobile-first) */
