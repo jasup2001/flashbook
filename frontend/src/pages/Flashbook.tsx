@@ -1,9 +1,11 @@
 import { lazy, Suspense, useState } from 'react';
 import { PageHeading } from '../components/PageHeading';
 import { FlashCard } from '../features/flashes/FlashCard';
-import flashes from '../data/flashes.json';
+import localDesigns from '../data/flashes.json';
+import { numberDesigns } from '../features/flashes/numbering';
 
 const FlashViewer = lazy(() => import('../features/flashes/FlashViewer'));
+const flashes = numberDesigns(localDesigns);
 
 export function Flashbook() {
   const [selected, setSelected] = useState<number | null>(null);
