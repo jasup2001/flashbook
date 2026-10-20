@@ -11,13 +11,13 @@ function open(path = '/') {
 describe('stage 1 portfolio', () => {
   it('keeps the home page to the original logo and four working navigation links', async () => {
     open();
-    expect(screen.getByRole('img', { name: 'JASUP2001' })).toHaveAttribute('src', '/media/logo2.png');
+    expect(screen.getByRole('img', { name: 'jasup2001' })).toHaveAttribute('src', '/media/logo2.png');
     expect(screen.getAllByRole('link')).toHaveLength(4);
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
     expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashes', 'tattoos', 'waitlist', 'other']);
     await userEvent.click(screen.getByRole('link', { name: 'flashes' }));
-    expect(screen.getByRole('heading', { name: 'Flashes' })).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /Open sheet/ })).toHaveLength(51);
+    expect(screen.getByRole('heading', { name: 'flashes' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /open design/ })).toHaveLength(51);
   });
 
   it('serves responsive thumbnails instead of originals in the gallery', () => {
@@ -35,10 +35,10 @@ describe('stage 1 portfolio', () => {
   it('opens HQ on demand, navigates by keyboard and swipe, closes and returns focus', async () => {
     open('/flashes');
     const user = userEvent.setup();
-    const opener = screen.getAllByRole('button', { name: /Open sheet/ })[0];
+    const opener = screen.getAllByRole('button', { name: /open design/ })[0];
     await user.click(opener);
-    const dialog = await screen.findByRole('dialog', { name: 'Sheet preview' });
-    expect(within(dialog).getByRole('link', { name: 'Open original ↗' })).toHaveAttribute('href', '/media/originals/anament.png');
+    const dialog = await screen.findByRole('dialog', { name: 'design preview' });
+    expect(within(dialog).getByRole('link', { name: 'open original ↗' })).toHaveAttribute('href', '/media/originals/anament.png');
     fireEvent.load(dialog.querySelector('.viewer__preload')!);
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', '/media/originals/anament.png');
     fireEvent.keyDown(dialog, { key: 'ArrowLeft' });
@@ -57,16 +57,16 @@ describe('stage 1 portfolio', () => {
 
   it('falls back to a thumbnail when the HQ original fails', async () => {
     open('/flashes');
-    await userEvent.click(screen.getAllByRole('button', { name: /Open sheet/ })[0]);
+    await userEvent.click(screen.getAllByRole('button', { name: /open design/ })[0]);
     const dialog = await screen.findByRole('dialog');
     fireEvent.error(dialog.querySelector('.viewer__preload')!);
-    expect(within(dialog).getByText(/Could not load the original/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/could not load the original/)).toBeInTheDocument();
     expect(within(dialog).getByRole('img').getAttribute('src')).toContain('/thumbs/');
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close preview' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'close preview' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it.each([['/tattoos', 'Tattoos'], ['/other', 'Other'], ['/admin', 'Admin'], ['/missing', '404']])('provides the %s placeholder', (path, title) => {
+  it.each([['/tattoos', 'tattoos'], ['/other', 'other'], ['/admin', 'admin'], ['/missing', '404']])('provides the %s placeholder', (path, title) => {
     open(path);
     expect(screen.getByRole('heading', { level: 1, name: title })).toBeInTheDocument();
   });
@@ -74,12 +74,12 @@ describe('stage 1 portfolio', () => {
   it('validates the form as a local preview without claiming a submission', async () => {
     open('/waitlist');
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText('Your name'), 'Test');
-    await user.type(screen.getByLabelText('Email'), 'test@example.com');
-    await user.type(screen.getByLabelText('Your idea'), 'Sheet 01');
-    await user.click(screen.getByRole('button', { name: /Check form/ }));
+    await user.type(screen.getByLabelText('your name'), 'Test');
+    await user.type(screen.getByLabelText('email'), 'test@example.com');
+    await user.type(screen.getByLabelText('your idea'), 'design 01');
+    await user.click(screen.getByRole('button', { name: /check form/ }));
     expect(screen.getByRole('status')).toHaveTextContent('nothing has been sent or saved');
-    await user.type(screen.getByLabelText('Your idea'), '.');
+    await user.type(screen.getByLabelText('your idea'), '.');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 });

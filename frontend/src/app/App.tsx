@@ -9,8 +9,8 @@ import { Placeholder } from '../pages/Placeholder';
 function RouteEffects() {
   const { pathname } = useLocation();
   useEffect(() => {
-    const name = pathname.slice(1);
-    document.title = name ? `${name.charAt(0).toUpperCase()}${name.slice(1)} — JASUP2001` : 'JASUP2001';
+    const name = pathname.slice(1).toLowerCase();
+    document.title = name ? `${name} — jasup2001` : 'jasup2001';
     window.scrollTo(0, 0);
     if (pathname !== '/') document.getElementById('content')?.focus({ preventScroll: true });
   }, [pathname]);
@@ -24,11 +24,11 @@ export function App() {
       <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
         <Route path="flashes" element={<Flashes />} />
-        <Route path="tattoos" element={<Placeholder title="Tattoos" eyebrow="On skin" description="Tattoos, details and process." note="Photos and videos coming soon." />} />
+        <Route path="tattoos" element={<Placeholder title="tattoos" />} />
         <Route path="waitlist" element={<Waitlist />} />
-        <Route path="other" element={<Placeholder title="Other" eyebrow="Beyond tattooing" description="Space for other things." note="New projects will appear here in their own time." />} />
-        <Route path="admin" element={<Placeholder title="Admin" eyebrow="Coming soon" description="The admin panel is coming in a later stage." note="Managing media and submissions will require authentication. The panel is not available yet." />} />
-        <Route path="*" element={<Placeholder title="404" eyebrow="Not found" description="This page doesn't exist." note="Head back home or explore the flashbook." />} />
+        <Route path="other" element={<Placeholder title="other" note="new shih soon" />} />
+        <Route path="admin" element={<Placeholder title="admin" eyebrow="coming soon" description="the admin panel is coming in a later stage." note="managing media and submissions will require authentication. the panel is not available yet." />} />
+        <Route path="*" element={<Placeholder title="404" eyebrow="not found" description="this page doesn't exist." note="head back home or explore the flashbook." />} />
       </Route>
     </Routes>
   </>;

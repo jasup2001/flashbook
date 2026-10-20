@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router';
 
-const links = ['Flashes', 'Tattoos', 'Waitlist', 'Other'];
+const links = ['flashes', 'tattoos', 'waitlist', 'other'];
 
 export function Navigation({ home = false }: { home?: boolean }) {
-  return <nav className={home ? 'navigation navigation--home' : 'navigation'} aria-label="Main navigation">
-    {links.map((name) => <NavLink key={name} to={`/${name.toLowerCase()}`}>{home ? name.toLowerCase() : name}</NavLink>)}
+  return <nav className={home ? 'navigation navigation--home' : 'navigation'} aria-label="main navigation">
+    {links.map((name) => <NavLink key={name} to={`/${name}`}>{name}</NavLink>)}
   </nav>;
 }
