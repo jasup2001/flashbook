@@ -14,14 +14,15 @@ describe('stage 1 portfolio', () => {
     expect(screen.getByRole('img', { name: 'jasup2001' })).toHaveAttribute('src', '/media/logo2.png');
     expect(screen.getAllByRole('link')).toHaveLength(4);
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashes', 'tattoos', 'waitlist', 'other']);
-    await userEvent.click(screen.getByRole('link', { name: 'flashes' }));
-    expect(screen.getByRole('heading', { name: 'flashes' })).toBeInTheDocument();
+    expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashbook', 'tattoos', 'waitlist', 'other']);
+    await userEvent.click(screen.getByRole('link', { name: 'flashbook' }));
+    expect(screen.getByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: /open design/ })).toHaveLength(51);
   });
 
-  it('serves responsive thumbnails instead of originals in the gallery', () => {
-    open('/flashes');
+  it.each(['/flashbook', '/flashes'])('serves responsive thumbnails at %s, including the legacy redirect', (path) => {
+    open(path);
+    expect(screen.getByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
     const images = screen.getAllByRole('img');
     expect(images).toHaveLength(51);
     for (const image of images) {
@@ -33,7 +34,7 @@ describe('stage 1 portfolio', () => {
   });
 
   it('opens HQ on demand, navigates by keyboard and swipe, closes and returns focus', async () => {
-    open('/flashes');
+    open('/flashbook');
     const user = userEvent.setup();
     const opener = screen.getAllByRole('button', { name: /open design/ })[0];
     await user.click(opener);
@@ -56,7 +57,7 @@ describe('stage 1 portfolio', () => {
   });
 
   it('falls back to a thumbnail when the HQ original fails', async () => {
-    open('/flashes');
+    open('/flashbook');
     await userEvent.click(screen.getAllByRole('button', { name: /open design/ })[0]);
     const dialog = await screen.findByRole('dialog');
     fireEvent.error(dialog.querySelector('.viewer__preload')!);

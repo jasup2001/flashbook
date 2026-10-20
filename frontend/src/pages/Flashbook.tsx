@@ -5,10 +5,10 @@ import flashes from '../data/flashes.json';
 
 const FlashViewer = lazy(() => import('../features/flashes/FlashViewer'));
 
-export function Flashes() {
+export function Flashbook() {
   const [selected, setSelected] = useState<number | null>(null);
   return <>
-    <PageHeading title="flashes" />
+    <PageHeading title="flashbook" />
     <div className="flash-grid">
       {flashes.map((flash, index) => <FlashCard key={flash.id} flash={flash} priority={index < 3} onOpen={() => setSelected(index)} />)}
     </div>

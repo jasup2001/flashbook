@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { Layout } from '../components/Layout';
 import { Home } from '../pages/Home';
-import { Flashes } from '../pages/Flashes';
+import { Flashbook } from '../pages/Flashbook';
 import { Waitlist } from '../pages/Waitlist';
 import { Placeholder } from '../pages/Placeholder';
 
@@ -23,7 +23,8 @@ export function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
-        <Route path="flashes" element={<Flashes />} />
+        <Route path="flashbook" element={<Flashbook />} />
+        <Route path="flashes" element={<Navigate to="/flashbook" replace />} />
         <Route path="tattoos" element={<Placeholder title="tattoos" />} />
         <Route path="waitlist" element={<Waitlist />} />
         <Route path="other" element={<Placeholder title="other" note="new shi soon" />} />

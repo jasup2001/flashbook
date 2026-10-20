@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';
 
-const links = ['flashes', 'tattoos', 'waitlist', 'other'];
+const links = ['flashbook', 'tattoos', 'waitlist', 'other'];
 
 export function Navigation({ home = false }: { home?: boolean }) {
   return <nav className={home ? 'navigation navigation--home' : 'navigation'} aria-label="main navigation">

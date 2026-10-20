@@ -5,7 +5,7 @@ export function Layout() {
   return <div className="site-shell">
     <a className="skip-link" href="#content">skip to content</a>
     <header className="site-header">
-      <Link className="wordmark" to="/" aria-label="jasup2001 — home"><img src="/media/logo-thumbnail.webp" width="320" height="160" alt="" /></Link>
+      <Link className="wordmark" to="/" aria-label="jasup2001.site — home">jasup2001.site</Link>
       <Navigation />
     </header>
     <main id="content" tabIndex={-1}><Outlet /></main>

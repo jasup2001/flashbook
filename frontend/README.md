@@ -27,7 +27,7 @@ pnpm preview   # lokalny podgląd produkcyjnego dist/
 ## Co można obejrzeć
 
 - `/` — wyłącznie niezmienione logo `logo2.png` i cztery linki.
-- `/flashes` — wszystkie 51 oryginalnych projektów, responsywne miniatury, lazy loading, pełnoekranowy dialog, oryginalna jakość na żądanie, zoom 1–6×, przesuwanie powiększonego obrazu, pinch, double click/tap, swipe między arkuszami przy powiększeniu 100%, strzałki i Esc. Dialog zatrzymuje fokus i po zamknięciu oddaje go wybranemu arkuszowi.
+- `/flashbook` — wszystkie 51 oryginalnych projektów, responsywne miniatury, lazy loading, pełnoekranowy dialog, oryginalna jakość na żądanie, zoom 1–6×, przesuwanie powiększonego obrazu, pinch, double click/tap, swipe między arkuszami przy powiększeniu 100%, strzałki i Esc. Dialog zatrzymuje fokus i po zamknięciu oddaje go wybranemu arkuszowi. Dawny adres `/flashes` przekierowuje na `/flashbook`.
 - `/tattoos` — placeholder przyszłej galerii zdjęć/wideo i karuzel. Nie użyto flashów jako fikcyjnych zdjęć wykonanych tatuaży.
 - `/waitlist` — lokalny podgląd formularza z walidacją przeglądarki. Nie wysyła, nie zapisuje danych i nie obiecuje przyjęcia zgłoszenia.
 - `/other` — miejsce na przyszłe projekty.

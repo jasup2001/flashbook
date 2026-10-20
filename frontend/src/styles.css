@@ -19,15 +19,15 @@ p, h1, h2 { margin: 0; }
 .home { min-height: 100svh; display: grid; place-items: center; padding: 28px 24px 64px; }
 .home__composition { width: min(100%, 680px); }
 .home__logo { width: 100%; height: auto; }
-.navigation { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 13px; letter-spacing: .035em; }
-.navigation a { display: inline-flex; min-height: 44px; align-items: center; position: relative; }
-.navigation a::after { content: ''; position: absolute; bottom: 8px; left: 0; right: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .18s; }
-.navigation a:hover::after, .navigation a.active::after { transform: scaleX(1); }
-.navigation--home { justify-content: center; gap: 12px; margin-top: 18px; font-size: 14px; letter-spacing: 0; }
+.navigation, .wordmark { font-size: 13px; letter-spacing: .035em; }
+.navigation { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.navigation a, .wordmark { display: inline-flex; min-height: 44px; align-items: center; position: relative; }
+.navigation a::after, .wordmark::after { content: ''; position: absolute; bottom: 8px; left: 0; right: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .18s; }
+.navigation a:hover::after, .navigation a.active::after, .navigation a:focus-visible::after, .wordmark:hover::after, .wordmark:focus-visible::after { transform: scaleX(1); }
+.navigation--home { justify-content: center; gap: 8px; margin-top: 18px; font-size: 14px; letter-spacing: 0; }
 .site-shell { max-width: 1500px; margin: 0 auto; padding: 0 20px; }
 .site-header { padding: 24px 0 18px; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid #dedede; }
-.wordmark { align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; }
-.wordmark img { width: 128px; height: auto; }
+.wordmark { align-self: flex-start; }
 .skip-link { position: fixed; top: -80px; left: 20px; z-index: 10; padding: 14px; background: #111; color: #fff; }
 .skip-link:focus { top: 12px; }
 .page-heading { padding: 52px 0 34px; display: flex; flex-direction: column; gap: 24px; }
