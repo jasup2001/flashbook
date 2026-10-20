@@ -40,7 +40,7 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
       if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); go(event.key === 'ArrowRight' ? 1 : -1); }
     }}>
     <div className="viewer__header">
-      <div aria-live="polite"><span className="eyebrow">{flash.number}</span><span className="viewer__name">{flash.id}</span></div>
+      <div className="eyebrow" aria-live="polite">{flash.number}</div>
       <button className="text-button" onClick={onClose} aria-label="close preview">close <span aria-hidden="true">×</span></button>
     </div>
     <TransformWrapper key={flash.id} minScale={1} maxScale={6} centerOnInit
@@ -61,7 +61,7 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
             touch.current = null;
           }} onTouchCancel={() => { touch.current = null; }}>
           <TransformComponent wrapperClass="viewer__transform" contentClass="viewer__image-wrap">
-            <img className="viewer__image" src={loaded ? flash.original : flash.thumbnails.at(-1)!.src} alt={`design ${flash.number} — ${flash.id}`} draggable={false} />
+            <img className="viewer__image" src={loaded ? flash.original : flash.thumbnails.at(-1)!.src} alt={`design ${flash.number}`} draggable={false} />
           </TransformComponent>
           {!loaded && !failed && <img key={flash.original} className="viewer__preload" src={flash.original} alt="" aria-hidden="true" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
           <span className="viewer__quality" role="status">{failed ? 'could not load the original. showing a preview.' : loaded ? 'original quality' : 'loading original…'}</span>

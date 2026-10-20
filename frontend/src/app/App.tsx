@@ -26,7 +26,7 @@ export function App() {
         <Route path="flashes" element={<Flashes />} />
         <Route path="tattoos" element={<Placeholder title="tattoos" />} />
         <Route path="waitlist" element={<Waitlist />} />
-        <Route path="other" element={<Placeholder title="other" note="new shih soon" />} />
+        <Route path="other" element={<Placeholder title="other" note="new shi soon" />} />
         <Route path="admin" element={<Placeholder title="admin" eyebrow="coming soon" description="the admin panel is coming in a later stage." note="managing media and submissions will require authentication. the panel is not available yet." />} />
         <Route path="*" element={<Placeholder title="404" eyebrow="not found" description="this page doesn't exist." note="head back home or explore the flashbook." />} />
       </Route>

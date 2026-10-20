@@ -56,5 +56,10 @@ for (const [index, file] of files.entries()) {
 for (const file of ['logo.png', 'logo2.png', 'favicon.png']) {
   await copyFile(resolve(root, file), resolve(output, file));
 }
+await sharp(resolve(root, 'logo2.png'))
+  .trim()
+  .resize({ width: 320, withoutEnlargement: true })
+  .webp({ quality: 90 })
+  .toFile(resolve(output, 'logo-thumbnail.webp'));
 await writeFile(resolve(data, 'flashes.json'), `${JSON.stringify(flashes, null, 2)}\n`);
 console.log(`Prepared ${flashes.length} sheets. Originals: ${(originalBytes / 1048576).toFixed(2)} MiB; all 3 WebP sizes: ${(thumbnailBytes / 1048576).toFixed(2)} MiB.`);

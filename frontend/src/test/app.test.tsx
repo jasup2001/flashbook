@@ -74,7 +74,7 @@ describe('stage 1 portfolio', () => {
   it('validates the form as a local preview without claiming a submission', async () => {
     open('/waitlist');
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText('your name'), 'Test');
+    await user.type(screen.getByLabelText('your instagram nickname'), '@test_artist');
     await user.type(screen.getByLabelText('email'), 'test@example.com');
     await user.type(screen.getByLabelText('your idea'), 'design 01');
     await user.click(screen.getByRole('button', { name: /check form/ }));
