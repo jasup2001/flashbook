@@ -14,9 +14,10 @@ describe('stage 1 portfolio', () => {
     expect(screen.getByRole('img', { name: 'JASUP2001' })).toHaveAttribute('src', '/media/logo2.png');
     expect(screen.getAllByRole('link')).toHaveLength(4);
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
-    await userEvent.click(screen.getByRole('link', { name: 'Flashes' }));
+    expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashes', 'tattoos', 'waitlist', 'other']);
+    await userEvent.click(screen.getByRole('link', { name: 'flashes' }));
     expect(screen.getByRole('heading', { name: 'Flashes' })).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /Otwórz arkusz/ })).toHaveLength(51);
+    expect(screen.getAllByRole('button', { name: /Open sheet/ })).toHaveLength(51);
   });
 
   it('serves responsive thumbnails instead of originals in the gallery', () => {
@@ -34,10 +35,10 @@ describe('stage 1 portfolio', () => {
   it('opens HQ on demand, navigates by keyboard and swipe, closes and returns focus', async () => {
     open('/flashes');
     const user = userEvent.setup();
-    const opener = screen.getAllByRole('button', { name: /Otwórz arkusz/ })[0];
+    const opener = screen.getAllByRole('button', { name: /Open sheet/ })[0];
     await user.click(opener);
-    const dialog = await screen.findByRole('dialog', { name: 'Podgląd arkusza' });
-    expect(within(dialog).getByRole('link', { name: 'Otwórz oryginał ↗' })).toHaveAttribute('href', '/media/originals/anament.png');
+    const dialog = await screen.findByRole('dialog', { name: 'Sheet preview' });
+    expect(within(dialog).getByRole('link', { name: 'Open original ↗' })).toHaveAttribute('href', '/media/originals/anament.png');
     fireEvent.load(dialog.querySelector('.viewer__preload')!);
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', '/media/originals/anament.png');
     fireEvent.keyDown(dialog, { key: 'ArrowLeft' });
@@ -56,12 +57,12 @@ describe('stage 1 portfolio', () => {
 
   it('falls back to a thumbnail when the HQ original fails', async () => {
     open('/flashes');
-    await userEvent.click(screen.getAllByRole('button', { name: /Otwórz arkusz/ })[0]);
+    await userEvent.click(screen.getAllByRole('button', { name: /Open sheet/ })[0]);
     const dialog = await screen.findByRole('dialog');
     fireEvent.error(dialog.querySelector('.viewer__preload')!);
-    expect(within(dialog).getByText(/Nie udało się wczytać oryginału/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Could not load the original/)).toBeInTheDocument();
     expect(within(dialog).getByRole('img').getAttribute('src')).toContain('/thumbs/');
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Zamknij podgląd' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Close preview' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -73,12 +74,12 @@ describe('stage 1 portfolio', () => {
   it('validates the form as a local preview without claiming a submission', async () => {
     open('/waitlist');
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText('Jak masz na imię?'), 'Test');
-    await user.type(screen.getByLabelText('E-mail'), 'test@example.com');
-    await user.type(screen.getByLabelText('Twój pomysł'), 'Arkusz 01');
-    await user.click(screen.getByRole('button', { name: /Sprawdź formularz/ }));
-    expect(screen.getByRole('status')).toHaveTextContent('dane nie zostały wysłane ani zapisane');
-    await user.type(screen.getByLabelText('Twój pomysł'), '.');
+    await user.type(screen.getByLabelText('Your name'), 'Test');
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Your idea'), 'Sheet 01');
+    await user.click(screen.getByRole('button', { name: /Check form/ }));
+    expect(screen.getByRole('status')).toHaveTextContent('nothing has been sent or saved');
+    await user.type(screen.getByLabelText('Your idea'), '.');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 });

@@ -24,11 +24,11 @@ export function App() {
       <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
         <Route path="flashes" element={<Flashes />} />
-        <Route path="tattoos" element={<Placeholder title="Tattoos" eyebrow="Na skórze" description="Miejsce na tatuaże, detale i proces." note="Zdjęcia i filmy pojawią się tutaj w kolejnej odsłonie." />} />
+        <Route path="tattoos" element={<Placeholder title="Tattoos" eyebrow="On skin" description="Tattoos, details and process." note="Photos and videos coming soon." />} />
         <Route path="waitlist" element={<Waitlist />} />
-        <Route path="other" element={<Placeholder title="Other" eyebrow="Poza tatuażem" description="Przestrzeń na inne rzeczy." note="Nowe projekty pojawią się tutaj w swoim czasie." />} />
-        <Route path="admin" element={<Placeholder title="Admin" eyebrow="W przygotowaniu" description="Panel pojawi się w kolejnym etapie." note="Zarządzanie mediami i zgłoszeniami wymaga uwierzytelniania. Na tym etapie panel jest niedostępny." />} />
-        <Route path="*" element={<Placeholder title="404" eyebrow="Nie znaleziono" description="Ta strona nie istnieje." note="Wróć do strony głównej lub zajrzyj do flashbooka." />} />
+        <Route path="other" element={<Placeholder title="Other" eyebrow="Beyond tattooing" description="Space for other things." note="New projects will appear here in their own time." />} />
+        <Route path="admin" element={<Placeholder title="Admin" eyebrow="Coming soon" description="The admin panel is coming in a later stage." note="Managing media and submissions will require authentication. The panel is not available yet." />} />
+        <Route path="*" element={<Placeholder title="404" eyebrow="Not found" description="This page doesn't exist." note="Head back home or explore the flashbook." />} />
       </Route>
     </Routes>
   </>;

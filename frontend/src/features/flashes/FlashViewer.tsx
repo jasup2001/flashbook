@@ -34,14 +34,14 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
     };
   }, []);
 
-  return createPortal(<dialog className="viewer" ref={dialog} aria-label="Podgląd arkusza" aria-describedby="viewer-help"
+  return createPortal(<dialog className="viewer" ref={dialog} aria-label="Sheet preview" aria-describedby="viewer-help"
     onCancel={(event) => { event.preventDefault(); onClose(); }}
     onKeyDown={(event) => {
       if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); go(event.key === 'ArrowRight' ? 1 : -1); }
     }}>
     <div className="viewer__header">
-      <div aria-live="polite"><span className="eyebrow">Arkusz {flash.number}</span><span className="viewer__name">{flash.id}</span></div>
-      <button className="text-button" onClick={onClose} aria-label="Zamknij podgląd">Zamknij <span aria-hidden="true">×</span></button>
+      <div aria-live="polite"><span className="eyebrow">Sheet {flash.number}</span><span className="viewer__name">{flash.id}</span></div>
+      <button className="text-button" onClick={onClose} aria-label="Close preview">Close <span aria-hidden="true">×</span></button>
     </div>
     <TransformWrapper key={flash.id} minScale={1} maxScale={6} centerOnInit
       doubleClick={{ mode: 'toggle', step: 1 }} wheel={{ step: 0.15 }}
@@ -61,18 +61,18 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
             touch.current = null;
           }} onTouchCancel={() => { touch.current = null; }}>
           <TransformComponent wrapperClass="viewer__transform" contentClass="viewer__image-wrap">
-            <img className="viewer__image" src={loaded ? flash.original : flash.thumbnails.at(-1)!.src} alt={`Arkusz ${flash.number} — ${flash.id}`} draggable={false} />
+            <img className="viewer__image" src={loaded ? flash.original : flash.thumbnails.at(-1)!.src} alt={`Sheet ${flash.number} — ${flash.id}`} draggable={false} />
           </TransformComponent>
           {!loaded && !failed && <img key={flash.original} className="viewer__preload" src={flash.original} alt="" aria-hidden="true" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
-          <span className="viewer__quality" role="status">{failed ? 'Nie udało się wczytać oryginału. Wyświetlamy podgląd.' : loaded ? 'Oryginalna jakość' : 'Wczytywanie oryginału…'}</span>
+          <span className="viewer__quality" role="status">{failed ? 'Could not load the original. Showing a preview.' : loaded ? 'Original quality' : 'Loading original…'}</span>
         </div>
         <div className="viewer__toolbar">
-          <div className="viewer__paging"><button onClick={() => go(-1)} aria-label="Poprzedni arkusz">←</button><span aria-live="polite">{flash.number} / {flashes.length}</span><button onClick={() => go(1)} aria-label="Następny arkusz">→</button></div>
-          <div className="viewer__zoom"><button onClick={() => zoomOut()} disabled={scale <= 1.01} aria-label="Pomniejsz">−</button><button onClick={() => resetTransform()} aria-label="Resetuj powiększenie">{Math.round(scale * 100)}%</button><button onClick={() => zoomIn()} disabled={scale >= 5.99} aria-label="Powiększ">+</button></div>
-          <a href={flash.original} target="_blank" rel="noopener noreferrer" className="viewer__original">Otwórz oryginał ↗</a>
+          <div className="viewer__paging"><button onClick={() => go(-1)} aria-label="Previous sheet">←</button><span aria-live="polite">{flash.number} / {flashes.length}</span><button onClick={() => go(1)} aria-label="Next sheet">→</button></div>
+          <div className="viewer__zoom"><button onClick={() => zoomOut()} disabled={scale <= 1.01} aria-label="Zoom out">−</button><button onClick={() => resetTransform()} aria-label="Reset zoom">{Math.round(scale * 100)}%</button><button onClick={() => zoomIn()} disabled={scale >= 5.99} aria-label="Zoom in">+</button></div>
+          <a href={flash.original} target="_blank" rel="noopener noreferrer" className="viewer__original">Open original ↗</a>
         </div>
       </>}
     </TransformWrapper>
-    <p id="viewer-help" className="viewer__help">Uszczypnij lub kliknij dwukrotnie, aby powiększyć. Przesuń, aby zmienić arkusz. Klawiatura: ← → / Esc.</p>
+    <p id="viewer-help" className="viewer__help">Pinch or double-tap to zoom. Swipe to change sheets. Keyboard: ← → / Esc.</p>
   </dialog>, document.body);
 }
