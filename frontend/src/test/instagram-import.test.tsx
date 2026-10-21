@@ -1,14 +1,24 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-const mocks = vi.hoisted(() => ({ status: vi.fn(), connect: vi.fn(), import: vi.fn() }));
-vi.mock('../features/admin/instagram', () => ({ instagramStatus: mocks.status, connectInstagram: mocks.connect, importInstagram: mocks.import }));
+const mocks = vi.hoisted(() => ({ status: vi.fn(), connect: vi.fn(), import: vi.fn(), feed: vi.fn() }));
+vi.mock('../features/admin/instagram', () => ({ instagramStatus: mocks.status, connectInstagram: mocks.connect, importInstagram: mocks.import, importInstagramFeed: mocks.feed }));
 import { InstagramImport } from '../features/admin/InstagramImport';
 beforeEach(() => {
   vi.clearAllMocks(); mocks.status.mockResolvedValue({ connected: false });
   mocks.connect.mockResolvedValue({ connected: true, username: 'jasup2001' });
 });
 describe('instagram admin controls', () => {
+  it('offers a resumable entire-feed import with explicit publication and reports failures', async () => {
+    mocks.status.mockResolvedValue({ connected: true, username: 'jasup2001' });
+    mocks.feed.mockResolvedValue({ total: 3, imported: 1, published: 2, failed: [{ url: 'https://www.instagram.com/p/missing/', error: 'video unavailable' }] });
+    const onImported = vi.fn(); render(<InstagramImport onImported={onImported} />);
+    await screen.findByText(/@jasup2001 connected/);
+    await userEvent.click(screen.getByRole('button', { name: 'import and publish all posts' }));
+    expect(await screen.findByRole('status')).toHaveTextContent('2 / 3 posts published');
+    expect(screen.getByText('video unavailable')).toBeInTheDocument();
+    expect(onImported).toHaveBeenCalledOnce();
+  });
   it('keeps import disabled until connected and never preloads a secret', async () => {
     render(<InstagramImport onImported={vi.fn()} />);
     await userEvent.type(screen.getByLabelText('post or reel link'), 'https://www.instagram.com/p/abc/');

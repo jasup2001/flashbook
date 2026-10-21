@@ -27,7 +27,7 @@ function TattooPost({ assets }: { assets: ResolvedAsset[] }) {
   const cover = assets[0];
   if (!cover) return null;
   return <article className="tattoo-tile">
-    <button className="tattoo-cover" aria-label={cover.kind === 'video' ? 'open tattoo reel' : assets.length > 1 ? 'open tattoo carousel' : 'open tattoo post'} onClick={() => setOpen(true)}>
+    <button className={`tattoo-cover${cover.height > cover.width ? ' tattoo-cover--portrait' : ''}`} aria-label={cover.kind === 'video' ? 'open tattoo reel' : assets.length > 1 ? 'open tattoo carousel' : 'open tattoo post'} onClick={() => setOpen(true)}>
       <img loading="lazy" src={cover.previews[1]?.src ?? cover.previews[0]?.src} srcSet={cover.previews.map(t => `${t.src} ${t.width}w`).join(', ')} sizes="(min-width: 1100px) 340px, 33vw" width={cover.width} height={cover.height} alt="tattoo post cover" />
       {(assets.length > 1 || cover.kind === 'video') && <span className="tattoo-cover__badge" aria-hidden="true">{assets.length > 1 ? '▱' : '▷'}</span>}
     </button>
@@ -57,7 +57,7 @@ function TattooCarousel({ assets }: { assets: ResolvedAsset[] }) {
   const images = assets.filter(a => a.kind === 'image');
   const move = (delta: number) => setIndex(current => (current + delta + assets.length) % assets.length);
   return <div className="tattoo-post">
-    <div className="tattoo-carousel" role="region" aria-roledescription="carousel" aria-label="tattoo photos and videos" tabIndex={0}
+    <div className={`tattoo-carousel${asset.height > asset.width ? ' tattoo-carousel--portrait' : ''}`} role="region" aria-roledescription="carousel" aria-label="tattoo photos and videos" tabIndex={0}
       onKeyDown={e => { if (e.target instanceof HTMLVideoElement || (e.target as Element).closest('.viewer')) return; if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); } if (e.key === 'ArrowRight') { e.preventDefault(); move(1); } }}
       onTouchStart={e => { if (asset.kind === 'image' && e.touches.length === 1) setTouch({ x: e.touches[0].clientX, y: e.touches[0].clientY }); }}
       onTouchEnd={e => { if (touch) { const x = e.changedTouches[0].clientX - touch.x; const y = e.changedTouches[0].clientY - touch.y; if (Math.abs(x) > 60 && Math.abs(x) > Math.abs(y)) move(x < 0 ? 1 : -1); } setTouch(null); }}>

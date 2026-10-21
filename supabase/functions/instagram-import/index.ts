@@ -1,5 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
-import { downloadMedia, graph, InstagramError, manifestFor, ownPost, signManifest, verifyManifest } from '../_shared/instagram.ts';
+import { downloadMedia, graph, InstagramError, manifestFor, ownMediaPage, ownPost, signManifest, verifyManifest } from '../_shared/instagram.ts';
 
 const origins = new Set(['http://127.0.0.1:5174', 'http://localhost:5174', 'http://127.0.0.1:4173', 'http://localhost:4173', 'https://jasup2001.site', 'https://www.jasup2001.site']);
 const url = Deno.env.get('SUPABASE_URL')!;
@@ -80,6 +80,12 @@ export async function handle(req: Request) {
       if (Date.parse(current.expires_at) <= Date.now()) return reply(200, { connected: false, expired: true });
       const renewed = await refresh(current);
       return reply(200, { connected: true, username: renewed.username, expires_at: renewed.expires_at });
+    }
+    if (input.action === 'list') {
+      const current = await connection();
+      if (!current) throw new InstagramError('connect your instagram account first.');
+      const active = await refresh(current);
+      return reply(200, await ownMediaPage(active.token, active.user_id, input.after ?? ''));
     }
     if (input.action === 'prepare') {
       const current = await connection();

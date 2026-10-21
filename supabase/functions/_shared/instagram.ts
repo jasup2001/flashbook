@@ -24,6 +24,20 @@ export function mediaUrl(input: unknown) {
 export type InstagramMedia = { id: string; media_type: string; media_url?: string; thumbnail_url?: string; permalink?: string;
   timestamp?: string; children?: { data: InstagramMedia[]; paging?: { next?: string } } };
 type Page = { data: InstagramMedia[]; paging?: { next?: string; cursors?: { after?: string } } };
+export async function ownMediaPage(token: string, userId: string, after: unknown = '', fetcher: typeof fetch = fetch) {
+  if (typeof after !== 'string' || after.length > 2048) throw new InstagramError('invalid instagram page.');
+  const result = await graph<Page>(token, `${userId}/media`, {
+    fields: 'id,permalink,timestamp', limit: '100', ...(after ? { after } : {}),
+  }, fetcher);
+  if (!Array.isArray(result.data)) throw new InstagramError('instagram returned an incomplete feed.', 502);
+  const posts = result.data.map(item => {
+    if (!/^\d+$/.test(item.id) || !item.timestamp || !Number.isFinite(Date.parse(item.timestamp))) throw new InstagramError('instagram returned incomplete post information.', 502);
+    return { id: item.id, url: instagramLink(item.permalink).url, timestamp: item.timestamp };
+  });
+  const next = result.paging?.next ? result.paging.cursors?.after : undefined;
+  if (result.paging?.next && !next) throw new InstagramError('instagram did not provide the next feed cursor.', 502);
+  return { posts, next: next ?? null };
+}
 export type ImportSlide = { id: string; kind: 'image' | 'video'; url: string; cover?: string };
 export type ImportManifest = { owner: string; expires: number; id: string; permalink: string; timestamp: string; slides: ImportSlide[] };
 export async function graph<T>(token: string, path: string, params: Record<string, string> = {}, fetcher: typeof fetch = fetch): Promise<T> {

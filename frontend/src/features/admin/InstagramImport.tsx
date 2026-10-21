@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { connectInstagram, importInstagram, instagramStatus } from './instagram';
+import { connectInstagram, importInstagram, importInstagramFeed, instagramStatus } from './instagram';
 import { useRemote } from './useRemote';
 import { message } from './api';
 
@@ -12,6 +12,16 @@ export function InstagramImport({ onImported }: { onImported: () => void }) {
   const [progress, setProgress] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [failures, setFailures] = useState<{ url: string; error: string }[]>([]);
+  async function startFeed() {
+    setBusy(true); setError(''); setNotice(''); setFailures([]);
+    try {
+      const result = await importInstagramFeed(setProgress);
+      setNotice(`${result.published} / ${result.total} posts published in instagram order. ${result.imported} newly imported. ${result.failed.length} could not be imported.`);
+      setFailures(result.failed);
+    } catch (reason) { setError(message(reason)); }
+    finally { onImported(); setBusy(false); setProgress(''); }
+  }
   async function connect() {
     setBusy(true); setError(''); setNotice('');
     try { await connectInstagram(token); setToken(''); setConnection(false); status.reload(); setNotice('instagram connected.'); }
@@ -38,6 +48,9 @@ export function InstagramImport({ onImported }: { onImported: () => void }) {
       <button className="submit-button" disabled={busy || !status.data?.connected || !url.trim()}>{busy ? 'importing…' : 'import post'}</button>
     </form>
     <p className="admin-hint">photos, carousels and reels from @jasup2001. no captions. imports are saved as drafts at the top of your feed. videos with licensed music may require a manual upload. limit: 20 mb per image / 50 mb per video.</p>
+    <button type="button" className="admin-button" disabled={busy || !status.data?.connected} onClick={() => void startFeed()}>import and publish all posts</button>
+    <p className="admin-hint">publishes your entire instagram feed in its original order, including existing drafts. skips duplicate imports. keep this tab open until finished; you can run it again to resume.</p>
     {progress && <p role="status">{progress}</p>}{notice && <p role="status">{notice}</p>}{error && <p role="alert">{error}</p>}
+    {failures.length > 0 && <ul className="admin-import-failures">{failures.map(item => <li key={item.url}><a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a><p>{item.error}</p></li>)}</ul>}
   </section>;
 }

@@ -163,14 +163,20 @@ p, h1, h2 { margin: 0; }
 .form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .tattoo-feed { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
 .tattoo-tile { min-width: 0; }
-.tattoo-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; aspect-ratio: 3 / 4; overflow: hidden; background: #fff; }
+.tattoo-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; aspect-ratio: 4 / 5; overflow: hidden; background: #fff; }
 .tattoo-cover img { width: 100%; height: 100%; object-fit: contain; }
+.tattoo-cover--portrait img { object-fit: cover; }
 .tattoo-cover__badge { position: absolute; top: 8px; right: 8px; color: #fff; background: rgb(0 0 0 / .65); font-size: 18px; line-height: 1; padding: 3px 5px; }
 .tattoo-dialog { position: fixed; inset: 0; margin: 0; padding: 0 16px 24px; width: 100%; height: 100dvh; max-width: none; max-height: none; border: 0; background: #fff; color: #111; }
 .tattoo-dialog::backdrop { background: #fff; }
 .tattoo-dialog__header { display: flex; justify-content: flex-end; max-width: 1000px; margin: 0 auto 20px; min-height: 70px; border-bottom: 1px solid #ddd; }
 .tattoo-dialog .tattoo-post { max-width: 760px; margin: 0 auto; }
-.tattoo-dialog .tattoo-image img, .tattoo-dialog .tattoo-carousel video { max-height: calc(100dvh - 180px); }
+.tattoo-dialog .tattoo-carousel { width: min(100%, calc((100dvh - 180px) * 4 / 5)); margin-inline: auto; aspect-ratio: 4 / 5; }
+.tattoo-dialog .tattoo-image { height: 100%; }
+.tattoo-dialog .tattoo-image img, .tattoo-dialog .tattoo-carousel video { height: 100%; max-height: none; }
+.tattoo-dialog .tattoo-carousel--portrait img, .tattoo-dialog .tattoo-carousel--portrait video { object-fit: cover; }
+.admin-import-failures { padding-left: 18px; overflow-wrap: anywhere; }
+.admin-import-failures li { margin-top: 16px; }
 @media (max-width: 759px) {
   .tattoo-feed { width: calc(100% + 2 * var(--page-gutter)); max-width: none; margin-inline: calc(-1 * var(--page-gutter)); }
   .tattoo-dialog { padding-inline: 0; overscroll-behavior: none; }

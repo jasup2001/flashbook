@@ -1,4 +1,4 @@
-import { db } from './api';
+import { db, loadPosts, reorder, setPublication } from './api';
 import { uploadMedia } from './media';
 
 export type InstagramStatus = { connected: boolean; username?: string; expires_at?: string; expired?: boolean };
@@ -42,4 +42,49 @@ export async function importInstagram(url: string, progress: (value: string) => 
     // Successful files remain private and reusable. Never publish an incomplete carousel.
     throw new Error(`${error instanceof Error ? error.message : 'the import failed.'}${assets.length ? ' uploaded files remain in your private library.' : ''}`);
   }
+}
+
+type FeedPost = { id: string; url: string; timestamp: string };
+type FeedPage = { posts: FeedPost[]; next: string | null };
+export async function importInstagramFeed(progress: (value: string) => void) {
+  progress('reading your instagram feed…');
+  const feed = new Map<string, FeedPost>();
+  const cursors = new Set<string>();
+  let after: string | null = null;
+  do {
+    const page: FeedPage = await instagramRequest<FeedPage>({ action: 'list', after: after ?? '' });
+    page.posts.forEach(post => feed.set(post.id, post));
+    after = page.next;
+    if (after && cursors.has(after)) throw new Error('instagram repeated a feed page. nothing has been imported.');
+    if (after) cursors.add(after);
+  } while (after);
+  const existing = new Map((await loadPosts()).filter(p => p.instagram_id).map(p => [p.instagram_id!, p]));
+  const posts = [...feed.values()];
+  const ordered: string[] = [];
+  const failed: { url: string; error: string }[] = [];
+  let imported = 0;
+  let published = 0;
+  for (const [index, post] of posts.entries()) {
+    const prefix = `post ${index + 1} / ${posts.length}`;
+    try {
+      const saved = existing.get(post.id);
+      let id = saved?.id;
+      if (!id) {
+        const result = await importInstagram(post.url, value => progress(`${prefix}: ${value}`));
+        id = result.id;
+        imported += 1;
+      }
+      progress(`${prefix}: publishing…`);
+      if (saved?.status !== 'published') await setPublication('tattoo_posts', id, 'published');
+      ordered.push(id);
+      published += 1;
+    } catch (error) {
+      failed.push({ url: post.url, error: error instanceof Error ? error.message : 'the post could not be imported.' });
+    }
+  }
+  progress('restoring instagram feed order…');
+  const all = await loadPosts();
+  const ids = new Set(ordered);
+  if (ordered.length) await reorder('tattoos', [...ordered, ...all.filter(p => !ids.has(p.id)).map(p => p.id)]);
+  return { total: posts.length, imported, published, failed };
 }

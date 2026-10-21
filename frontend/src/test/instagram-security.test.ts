@@ -1,10 +1,19 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
-import { downloadMedia, instagramLink, manifestFor, mediaUrl, ownPost, signManifest, verifyManifest } from '../../../supabase/functions/_shared/instagram';
+import { downloadMedia, instagramLink, manifestFor, mediaUrl, ownMediaPage, ownPost, signManifest, verifyManifest } from '../../../supabase/functions/_shared/instagram';
 
 const image = { id: '123', media_type: 'IMAGE', media_url: 'https://scontent.cdninstagram.com/photo.jpg',
   permalink: 'https://www.instagram.com/p/AbC_123/', timestamp: '2026-10-20T10:00:00+0000' };
 describe('official instagram import boundaries', () => {
+  it('lists only the connected feed, retaining order and exposing no raw pagination URLs or media URLs', async () => {
+    const fetcher = vi.fn().mockResolvedValue(Response.json({ data: [image, { ...image, id: '124' }], paging: { next: 'https://evil.test/?access_token=secret', cursors: { after: 'cursor2' } } }));
+    const page = await ownMediaPage('private-token', '999', 'cursor1', fetcher);
+    expect(page).toEqual({ posts: [{ id: '123', url: image.permalink, timestamp: image.timestamp }, { id: '124', url: image.permalink, timestamp: image.timestamp }], next: 'cursor2' });
+    expect(new URL(fetcher.mock.calls[0][0]).pathname).toBe('/v26.0/999/media');
+    expect(new URL(fetcher.mock.calls[0][0]).searchParams.get('after')).toBe('cursor1');
+    expect(JSON.stringify(page)).not.toContain('secret');
+    await expect(ownMediaPage('token', '999', { url: 'evil' }, fetcher)).rejects.toThrow('invalid instagram page');
+  });
   it('normalizes tracking links while retaining case-sensitive shortcodes', () => {
     expect(instagramLink('https://instagram.com/reel/AbC_123?igsh=test')).toEqual({ shortcode: 'AbC_123', url: 'https://www.instagram.com/reel/AbC_123/' });
     expect(instagramLink('https://www.instagram.com/jasup2001/p/AbC_123/').url).toBe('https://www.instagram.com/p/AbC_123/');
