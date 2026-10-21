@@ -13,7 +13,11 @@ import { Tattoos } from '../pages/Tattoos';
 describe('published tattoo carousels', () => {
   it('navigates between images and video, wraps and supports a swipe', async () => {
     render(<MemoryRouter><Tattoos /></MemoryRouter>);
+    const opener = await screen.findByRole('button', { name: 'open tattoo carousel' });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    await userEvent.click(opener);
     expect(await screen.findByRole('img', { name: 'tattoo photo' })).toHaveAttribute('src', '/test/photo-1.webp');
+    expect(screen.queryByText('a tattoo post')).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'next slide' }));
     expect(screen.getByLabelText('tattoo video')).toHaveAttribute('src', '/test/video');
     expect(screen.getByLabelText('tattoo video')).toHaveAttribute('preload', 'none');
@@ -25,5 +29,9 @@ describe('published tattoo carousels', () => {
     expect(screen.getByRole('img', { name: 'tattoo photo' })).toHaveAttribute('src', '/test/photo-1.webp');
     fireEvent.keyDown(carousel, { key: 'ArrowLeft' });
     expect(screen.getByRole('img', { name: 'tattoo photo' })).toHaveAttribute('src', '/test/photo-2.webp');
+    await userEvent.click(screen.getByRole('button', { name: 'close tattoo post' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
+    expect(document.body.style.overflow).not.toBe('hidden');
   });
 });

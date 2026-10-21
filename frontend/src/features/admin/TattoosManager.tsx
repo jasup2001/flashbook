@@ -23,7 +23,7 @@ export function TattoosManager() {
     <Feedback error={action.error} notice={action.notice} />
     {error || !data ? <LoadState error={error} reload={reload} /> : <div className="admin-design-grid">{data.map((post, index) => <article className="admin-design" key={post.id}>
       {post.slides[0] && <img loading="lazy" src={post.slides[0].asset.previews[0]?.src} alt="post cover" />}
-      <p>{post.caption || 'untitled post'}</p><span className="admin-hint">{post.slides.length} slides</span>
+      <span className="admin-hint">{post.slides.length} slides</span>
       <StatusControl status={post.status} disabled={action.busy} onChange={status => void action.run(async () => {
         if (status === 'published' && !post.slides.length) throw new Error('add at least one image or video first.');
         await setPublication('tattoo_posts', post.id, status); reload();
@@ -36,7 +36,6 @@ export function TattoosManager() {
   </section>;
 }
 function PostEditor({ post, position, onClose, onSaved }: { post: EditablePost | null; position: number; onClose: () => void; onSaved: () => void }) {
-  const [caption, setCaption] = useState(post?.caption ?? '');
   const [slides, setSlides] = useState<ResolvedAsset[]>(post?.slides.map(s => s.asset) ?? []);
   const [uploads, setUploads] = useState<Asset[]>([]);
   const [library, setLibrary] = useState(false);
@@ -52,9 +51,9 @@ function PostEditor({ post, position, onClose, onSaved }: { post: EditablePost |
   }
   return <form className="admin-post-editor" onSubmit={e => { e.preventDefault(); void action.run(async () => {
     if (!slides.length) throw new Error('add at least one image or video.');
-    await savePost(post?.id ?? null, caption.trim(), slides.map(a => ({ asset_id: a.id })), post?.sort_order ?? position); onSaved();
+    await savePost(post?.id ?? null, post?.caption ?? '', slides.map(a => ({ asset_id: a.id })), post?.sort_order ?? position); onSaved();
   }); }}>
-    <h2>{post ? 'edit post' : 'new post'}</h2><label>caption<textarea rows={4} maxLength={3000} value={caption} onChange={e => setCaption(e.target.value)} /></label>
+    <h2>{post ? 'edit post' : 'new post'}</h2>
     <p className="admin-hint">the first slide is the cover. new posts are saved as private drafts.</p>
     <div className="admin-slide-list">{slides.map((asset, index) => <div className="admin-slide" key={asset.id}>
       <img src={asset.previews[0]?.src} alt={`slide ${index + 1}`} /><span>{String(index + 1).padStart(2, '0')} · {asset.kind}</span>

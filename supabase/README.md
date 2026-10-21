@@ -20,7 +20,7 @@ Panel oferuje logowanie, wylogowanie i odzyskiwanie hasła. Wbudowany SMTP Supab
 
 - `portfolio_assets`: oryginały i warianty miniatur. Obecne 51 plików jest statyczne; importowane są wyłącznie metadane. `node supabase/scripts/create-legacy-seed.mjs` odtwarza `seed.sql` z lokalnego manifestu, bez kopiowania zdjęć do Supabase.
 - `flash_designs`: kolejność i status prac. Numer widoczny to pozycja wśród opublikowanych prac: `01`, `02` itd. UUID pozostaje stałe.
-- `tattoo_posts` / `tattoo_slides`: posty, opisy i uporządkowane slajdy. Pierwszy slajd jest okładką. RPC `save_tattoo_post` zapisuje całość w jednej transakcji.
+- `tattoo_posts` / `tattoo_slides`: posty i uporządkowane slajdy. Pierwszy slajd jest okładką. Galeria i edytor nie wyświetlają opisów; dawne wartości pola `caption` zachowano w bazie dla zgodności. RPC `save_tattoo_post` zapisuje całość w jednej transakcji.
 - `waitlist_entries`: zgłoszenia, statusy, prywatne notatki oraz snapshot numerów, ID prac i wersji grafik z chwili wysłania.
 
 Nowe pliki trafiają do prywatnego bucketu `portfolio-media`. RLS udostępnia gościom wyłącznie materiały powiązane z opublikowanymi pracami lub postami. Podpisane URL-e wygasają po 10 minutach; otwarte galerie odświeżają je co 5 minut. Poprzednio podpisany URL może działać do wygaśnięcia po ukryciu pracy. Stare statyczne oryginały były publiczne już wcześniej i pozostają dostępne pod ich adresami — ukrycie usuwa je z nowej galerii, nie z istniejącej strony produkcyjnej.

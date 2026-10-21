@@ -30,7 +30,7 @@ pnpm preview   # lokalny podgląd produkcyjnego dist/
 
 - `/` — wyłącznie niezmienione logo `logo2.png` i cztery linki.
 - `/flashbook` — wszystkie 51 oryginalnych projektów, responsywne miniatury, lazy loading, pełnoekranowy dialog, oryginalna jakość na żądanie, zoom 1–6×, przesuwanie powiększonego obrazu, pinch, double click/tap, swipe między arkuszami przy powiększeniu 100%, strzałki i Esc. Dialog zatrzymuje fokus i po zamknięciu oddaje go wybranemu arkuszowi. Dawny adres `/flashes` przekierowuje na `/flashbook`.
-- `/tattoos` — opublikowane posty ze zdjęciami, wideo i karuzelami. Dopóki nie opublikujesz postów, pozostają nagłówek i link do flashbooka.
+- `/tattoos` — trzykolumnowa siatka okładek bez opisów. Kliknięcie otwiera zdjęcia, rolkę lub karuzelę w pełnoekranowym podglądzie. Dopóki nie opublikujesz postów, pozostają nagłówek i link do flashbooka.
 - `/waitlist` — zapis zgłoszeń przez walidowany endpoint Supabase; bez konfiguracji działa wyłącznie podgląd formularza.
 - `/other` — miejsce na przyszłe projekty.
 - `/admin` — prywatny panel: logowanie, flashbook, biblioteka mediów, posty tattoos i zgłoszenia. Uprawnienia są sprawdzane w bazie przez RLS.
