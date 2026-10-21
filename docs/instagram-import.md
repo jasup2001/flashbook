@@ -17,7 +17,7 @@ Token jest odnawiany podczas używania panelu, jeśli od ostatniego zapisu minę
 
 ## Wygląd i kolejność
 
-Galeria publiczna ma trzy kolumny okładek. Po kliknięciu otwiera własny podgląd zdjęcia, rolki lub karuzeli z gestami. Import zachowuje kolejność slajdów i wybraną okładkę wideo, jeśli API ją udostępnia. Nowy import ustawia posty według daty publikacji na Instagramie, od najnowszego. Kolejność można następnie zmienić strzałkami w panelu; kolejny import ponownie porządkuje daty. Przypięcia i dowolna ręczna kolejność profilu Instagram nie są odtwarzane automatycznie.
+Galeria publiczna ma trzy kolumny okładek. Po kliknięciu otwiera własny podgląd zdjęcia, rolki lub karuzeli z gestami. Import zachowuje kolejność slajdów i wybraną okładkę wideo, jeśli API ją udostępnia. Każdy nowy import trafia na sam początek, niezależnie od daty publikacji na Instagramie; kolejność pozostałych postów pozostaje zachowana. Szkic staje się widoczny na górze publicznej galerii po opublikowaniu. Kolejność można następnie zmienić strzałkami w panelu. Przypięcia i dowolna ręczna kolejność profilu Instagram nie są odtwarzane automatycznie.
 
 Import nie synchronizuje późniejszych zmian na Instagramie i nie pobiera całego konta automatycznie. Ten sam post nie może zostać zaimportowany dwa razy, również po archiwizacji. Aby go przywrócić, użyj istniejącego posta w panelu. Post trafia do szkiców dopiero po zapisaniu wszystkich slajdów. Pliki z przerwanego importu pozostają w prywatnej bibliotece i można je wykorzystać ręcznie.
 

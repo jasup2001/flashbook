@@ -37,7 +37,7 @@ export function InstagramImport({ onImported }: { onImported: () => void }) {
       <label>post or reel link<input type="url" placeholder="https://www.instagram.com/p/…/" value={url} disabled={busy} onChange={e => setUrl(e.target.value)} required maxLength={2048} /></label>
       <button className="submit-button" disabled={busy || !status.data?.connected || !url.trim()}>{busy ? 'importing…' : 'import post'}</button>
     </form>
-    <p className="admin-hint">photos, carousels and reels from @jasup2001. no captions. imports are saved as drafts in date order. videos with licensed music may require a manual upload. limit: 20 mb per image / 50 mb per video.</p>
+    <p className="admin-hint">photos, carousels and reels from @jasup2001. no captions. imports are saved as drafts at the top of your feed. videos with licensed music may require a manual upload. limit: 20 mb per image / 50 mb per video.</p>
     {progress && <p role="status">{progress}</p>}{notice && <p role="status">{notice}</p>}{error && <p role="alert">{error}</p>}
   </section>;
 }
