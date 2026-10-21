@@ -42,4 +42,4 @@ Miniatury przygotowujemy własnym kodem; nie używamy płatnej transformacji obr
 5. Posty tattoos i publiczne karuzele.
 6. Obsługa zgłoszeń waitlist, testy uprawnień, interakcji, plików i buildu.
 
-Prace prowadzone na `redesign`. Obecne GitHub Pages oraz DNS nie są zmieniane. Publikacja nowej wersji pozostaje osobnym krokiem.
+Prace prowadzone na `redesign`. Po zatwierdzeniu publikacji przez właściciela nowa wersja jest wdrażana przez GitHub Actions na istniejące GitHub Pages i domenę `jasup2001.site`, bez zmiany DNS. Poprzednia strona pozostaje na `main`. Szczegóły: `deployment.md`.

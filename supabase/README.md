@@ -59,4 +59,4 @@ Doradca bezpieczeństwa nie wskazał braków RLS. Pozostaje ostrzeżenie o [wył
 
 Plan ma limity, m.in. 500 MB bazy, 1 GB plików i limity transferu. Projekt o małej aktywności może zostać uśpiony. [Cennik](https://supabase.com/pricing) i [zasady usypiania](https://supabase.com/docs/guides/platform/free-project-pausing). Nie włączono płatnych dodatków ani zmiany planu.
 
-Frontend jest wyłącznie na lokalnej gałęzi `redesign`. GitHub Pages, pliki pierwotnej strony i DNS nie zostały zmienione. Publikacja frontendu, polityka prywatności formularza, docelowe redirect URL-e oraz ewentualna konfiguracja dostawcy poczty pozostają do uzgodnienia przed udostępnieniem klientom.
+Frontend jest publikowany z gałęzi `redesign` przez GitHub Actions pod `https://jasup2001.site`. Produkcyjny Site URL oraz dokładne redirect URL-e `/admin` i `/admin/` zostały zapisane; lokalny redirect pozostał dostępny. Oryginały i poprzednia strona na `main` są zachowane, DNS pozostaje bez zmian. Szczegóły wdrożenia i powrotu do starej wersji opisano w `../docs/deployment.md`. Dostawca poczty pozostaje wbudowanym SMTP Supabase z ograniczeniami opisanymi wyżej.

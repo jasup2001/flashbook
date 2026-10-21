@@ -1,5 +1,7 @@
 # Publikacja na jasup2001.site
 
+Pierwsze wdrożenie: 2026-10-21, [GitHub Actions](https://github.com/jasup2001/flashbook/actions/runs/39666876081), commit `8cdf766`. Przeszły wszystkie 56 testów w CI, kontrola TypeScript, build i weryfikacja artefaktu. Pod publiczną domeną sprawdzono wszystkie bezpośrednie wejścia na podstrony, przekierowanie www, 404, oryginalne logo i przykładowe grafiki, produkcyjny CORS, walidację waitlist bez tworzenia zgłoszenia oraz odmowę niezalogowanego dostępu do importera. W przeglądarce sprawdzono logo, 51 projektów, podgląd projektu, galerię tattoos, formularz i ekran logowania admina.
+
 Frontend React jest publikowany przez GitHub Pages z repozytorium `jasup2001/flashbook`, z gałęzi `redesign`. Workflow `.github/workflows/pages.yml` buduje i testuje aplikację, a następnie przesyła wyłącznie `frontend/dist` do środowiska `github-pages`. Domena i certyfikat pozostają zarządzane przez istniejące GitHub Pages; publikacja nie wymaga zmiany DNS.
 
 ## Kolejne aktualizacje

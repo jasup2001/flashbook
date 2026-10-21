@@ -27,7 +27,7 @@ Import nie synchronizuje późniejszych zmian na Instagramie i nie pobiera całe
 - Maksymalnie 20 slajdów, 20 MB na zdjęcie i 50 MB na wideo. Zbyt duże wideo trzeba zmniejszyć i dodać ręcznie. Brak płatnego transkodowania.
 - Meta może nie zwrócić `media_url` dla wideo z licencjonowaną muzyką lub naruszeniami praw autorskich, również dla własnego konta. Panel wyświetla błąd; nie zastępuje filmu samą miniaturą i nie publikuje niepełnej karuzeli. Pozostaje ręczny upload własnego pliku.
 - Pliki są kopiowane do prywatnego `portfolio-media`, więc zużywają miejsce i transfer Supabase Free. Miniatury są generowane lokalnie w przeglądarce. Nie korzystamy ze scrapingu ani płatnego serwisu pobierającego.
-- Import zmienia wyłącznie nowy projekt Supabase i lokalną gałąź `redesign`. GitHub Pages i DNS pozostają bez zmian.
+- Import i zarządzanie postami działają przez produkcyjny panel `https://jasup2001.site/admin/` oraz lokalny podgląd. Kod frontendu jest publikowany z `redesign` przez GitHub Actions; zmiany mediów w panelu nie wymagają nowego wdrożenia. DNS pozostaje bez zmian.
 
 ## Zaplecze i kontrola dostępu
 
