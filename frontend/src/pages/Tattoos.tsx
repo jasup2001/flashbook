@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 import { loadPosts, resolveAssets, type ResolvedAsset } from '../features/admin/api';
 import { useRemote } from '../features/admin/useRemote';
 import { LoadState } from '../features/admin/controls';
+import { lockPageScroll } from '../lib/lockPageScroll';
 
 const Viewer = lazy(() => import('../features/flashes/FlashViewer'));
 async function load() {
@@ -37,11 +38,11 @@ function TattooDialog({ assets, onClose }: { assets: ResolvedAsset[]; onClose: (
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    dialog.current?.showModal();
-    dialog.current?.querySelector<HTMLElement>('.tattoo-carousel')?.focus();
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = previousOverflow; opener?.focus(); };
+    const unlock = lockPageScroll();
+    const element = dialog.current;
+    element?.showModal();
+    element?.querySelector<HTMLElement>('.tattoo-carousel')?.focus({ preventScroll: true });
+    return () => { element?.close(); unlock(); opener?.focus({ preventScroll: true }); };
   }, []);
   return createPortal(<dialog ref={dialog} className="tattoo-dialog" aria-label="tattoo post" onCancel={event => { event.preventDefault(); onClose(); }}>
     <div className="tattoo-dialog__header"><button className="text-button" aria-label="close tattoo post" onClick={onClose}>close <span aria-hidden="true">×</span></button></div>

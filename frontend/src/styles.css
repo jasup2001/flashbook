@@ -24,8 +24,8 @@ p, h1, h2 { margin: 0; }
 .navigation a, .wordmark { display: inline-flex; min-height: 44px; align-items: center; position: relative; }
 .navigation a::after, .wordmark::after { content: ''; position: absolute; bottom: 8px; left: 0; right: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .18s; }
 .navigation a:hover::after, .navigation a.active::after, .navigation a:focus-visible::after, .wordmark:hover::after, .wordmark:focus-visible::after { transform: scaleX(1); }
-.navigation--home { justify-content: center; gap: 8px; margin-top: 18px; font-size: 14px; letter-spacing: 0; }
-.site-shell { max-width: 1500px; margin: 0 auto; padding: 0 20px; }
+.navigation--home { justify-content: center; gap: clamp(16px, 5vw, 26px); margin-top: 18px; font-size: 12px; letter-spacing: 0; }
+.site-shell { --page-gutter: 20px; max-width: 1500px; margin: 0 auto; padding: 0 var(--page-gutter); }
 .site-header { padding: 24px 0 18px; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid #dedede; }
 .wordmark { align-self: flex-start; }
 .skip-link { position: fixed; top: -80px; left: 20px; z-index: 10; padding: 14px; background: #111; color: #fff; }
@@ -62,14 +62,14 @@ p, h1, h2 { margin: 0; }
 .submit-button:hover { background: #333; }
 .form-status { font-size: 13px; line-height: 1.8; }
 .viewer-pending { position: fixed; inset: auto 20px 20px; padding: 20px; background: #111; color: #fff; z-index: 5; font-size: 13px; }
-.viewer { position: fixed; inset: 0; border: 0; margin: 0; padding: 0 16px; width: 100%; max-width: none; height: 100%; height: 100dvh; max-height: none; background: #fff; color: #111; }
+.viewer { position: fixed; inset: 0; border: 0; margin: 0; padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px); width: 100%; max-width: none; height: 100%; height: 100dvh; max-height: none; overflow: hidden; overscroll-behavior: none; background: #fff; color: #111; }
 .viewer[open] { display: flex; flex-direction: column; }
 .viewer::backdrop { background: white; }
 .viewer__header { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 76px; border-bottom: 1px solid #dedede; flex-shrink: 0; }
 .text-button { display: inline-flex; align-items: center; gap: 16px; border: 0; padding: 10px 0 10px 14px; font-size: 12px; min-height: 44px; }
 .text-button span { font-size: 28px; font-weight: 300; }
 .viewer__stage { flex: 1; position: relative; min-height: 0; display: flex; overflow: hidden; touch-action: none; }
-.viewer__stage .viewer__transform { width: 100%; height: 100%; cursor: grab; }
+.viewer__stage .viewer__transform { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
 .viewer__stage .viewer__transform:active { cursor: grabbing; }
 .viewer__stage .viewer__image-wrap { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 .viewer__image { width: 100%; height: 100%; object-fit: contain; padding: 16px 0 32px; user-select: none; }
@@ -83,11 +83,11 @@ p, h1, h2 { margin: 0; }
 .viewer__original { font-size: 11px; padding: 12px 0; min-height: 44px; display: inline-flex; align-items: center; }
 .viewer__help { color: #666; line-height: 1.7; font-size: 11px; padding: 4px 0 14px; flex-shrink: 0; }
 @media (min-width: 560px) {
-  .site-shell { padding: 0 32px; }
+  .site-shell { --page-gutter: 32px; }
   .navigation--home { font-size: 15px; gap: clamp(18px, 5vw, 50px); letter-spacing: .065em; }
   .flash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .viewer { padding: 0 32px; }
+  .viewer { padding-inline: 32px; }
   .viewer__help { text-align: center; }
 }
 @media (min-width: 760px) {
@@ -100,10 +100,10 @@ p, h1, h2 { margin: 0; }
   .waitlist-layout { padding-top: 48px; }
 }
 @media (min-width: 960px) {
-  .site-shell { padding: 0 48px; }
+  .site-shell { --page-gutter: 48px; }
   .flash-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 24px; }
   .site-footer { margin-top: 112px; padding: 30px 0; }
-  .viewer { padding: 0 40px; }
+  .viewer { padding-inline: 40px; }
   .viewer__header { min-height: 88px; }
   .viewer__toolbar { padding-top: 12px; }
 }
@@ -170,7 +170,12 @@ p, h1, h2 { margin: 0; }
 .tattoo-dialog::backdrop { background: #fff; }
 .tattoo-dialog__header { display: flex; justify-content: flex-end; max-width: 1000px; margin: 0 auto 20px; min-height: 70px; border-bottom: 1px solid #ddd; }
 .tattoo-dialog .tattoo-post { max-width: 760px; margin: 0 auto; }
-.tattoo-dialog .tattoo-image img, .tattoo-dialog .tattoo-carousel video { max-height: calc(100dvh - 175px); }
+.tattoo-dialog .tattoo-image img, .tattoo-dialog .tattoo-carousel video { max-height: calc(100dvh - 180px); }
+@media (max-width: 759px) {
+  .tattoo-feed { width: calc(100% + 2 * var(--page-gutter)); max-width: none; margin-inline: calc(-1 * var(--page-gutter)); }
+  .tattoo-dialog { padding-inline: 0; overscroll-behavior: none; }
+  .tattoo-dialog__header, .tattoo-dialog .tattoo-paging { margin-inline: 16px; }
+}
 .tattoo-post { min-width: 0; display: grid; gap: 20px; }
 .tattoo-carousel { min-width: 0; background: #fff; }
 .tattoo-image { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; }

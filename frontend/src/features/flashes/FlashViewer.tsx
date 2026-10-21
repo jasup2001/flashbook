@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import type { Flash } from './types';
+import { lockPageScroll } from '../../lib/lockPageScroll';
 
 export default function FlashViewer({ flashes, initialIndex, onClose }: { flashes: Flash[]; initialIndex: number; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -22,15 +23,14 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
 
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
+    const unlock = lockPageScroll();
     const element = dialog.current;
     element?.showModal();
-    element?.querySelector<HTMLButtonElement>('button')?.focus();
-    document.body.style.overflow = 'hidden';
+    element?.querySelector<HTMLButtonElement>('button')?.focus({ preventScroll: true });
     return () => {
-      document.body.style.overflow = previousOverflow;
       element?.close();
-      opener?.focus();
+      unlock();
+      opener?.focus({ preventScroll: true });
     };
   }, []);
 

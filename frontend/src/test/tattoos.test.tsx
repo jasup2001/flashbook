@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
@@ -11,6 +11,20 @@ vi.mock('../features/admin/api', () => ({
 }));
 import { Tattoos } from '../pages/Tattoos';
 describe('published tattoo carousels', () => {
+  it('keeps the gallery locked when closing a photo preview inside a post', async () => {
+    render(<MemoryRouter><Tattoos /></MemoryRouter>);
+    await userEvent.click(await screen.findByRole('button', { name: 'open tattoo carousel' }));
+    await userEvent.click(screen.getByRole('button', { name: 'open tattoo photo' }));
+    const preview = await screen.findByRole('dialog', { name: 'design preview' });
+    expect(document.body.style.position).toBe('fixed');
+    await userEvent.click(within(preview).getByRole('button', { name: 'close preview' }));
+    expect(screen.getByRole('dialog', { name: 'tattoo post' })).toBeInTheDocument();
+    expect(document.body.style.position).toBe('fixed');
+    await userEvent.click(screen.getByRole('button', { name: 'close tattoo post' }));
+    expect(document.body.style.position).toBe('');
+    expect(document.documentElement.style.overflow).toBe('');
+  });
+
   it('navigates between images and video, wraps and supports a swipe', async () => {
     render(<MemoryRouter><Tattoos /></MemoryRouter>);
     const opener = await screen.findByRole('button', { name: 'open tattoo carousel' });
