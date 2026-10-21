@@ -16,7 +16,7 @@ describe('stage 1 portfolio', () => {
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
     expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashbook', 'tattoos', 'waitlist', 'other']);
     await userEvent.click(screen.getByRole('link', { name: 'flashbook' }));
-    expect(await screen.findByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
+    expect(await screen.findByRole('region', { name: 'flashbook' })).toBeInTheDocument();
     await screen.findByRole('button', { name: 'open design 01' });
     expect(screen.getAllByRole('button', { name: /open design/ })).toHaveLength(51);
   });
@@ -24,7 +24,7 @@ describe('stage 1 portfolio', () => {
   it.each(['/flashbook', '/flashes'])('serves responsive thumbnails at %s, including the legacy redirect', async (path) => {
     open(path);
     await screen.findByRole('button', { name: 'open design 01' });
-    expect(screen.getByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'flashbook' })).not.toBeInTheDocument();
     const images = screen.getAllByRole('img');
     expect(images).toHaveLength(51);
     for (const image of images) {
@@ -73,7 +73,8 @@ describe('stage 1 portfolio', () => {
 
   it.each([['/tattoos', 'tattoos'], ['/other', 'other'], ['/admin', 'admin'], ['/missing', '404']])('provides the %s page', async (path, title) => {
     open(path);
-    expect(await screen.findByRole('heading', { level: 1, name: title })).toBeInTheDocument();
+    if (path === '/tattoos') expect(await screen.findByRole('region', { name: title })).toBeInTheDocument();
+    else expect(await screen.findByRole('heading', { level: 1, name: title })).toBeInTheDocument();
   });
 
   it('validates the form as a local preview without claiming a submission', async () => {

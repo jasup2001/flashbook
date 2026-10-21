@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router';
-import { PageHeading } from '../components/PageHeading';
 import { supabase } from '../lib/supabase';
 import { loadPosts, resolveAssets, type ResolvedAsset } from '../features/admin/api';
 import { useRemote } from '../features/admin/useRemote';
@@ -17,10 +16,10 @@ async function load() {
 }
 export function Tattoos() {
   const { data, error, reload } = useRemote(load, 300000);
-  return <><PageHeading title="tattoos" />
+  return <section className="gallery-page" aria-label="tattoos">
     {error || !data ? <LoadState error={error} reload={reload} /> : <div className="tattoo-feed">{data.map(post => <TattooPost key={post.id} assets={post.assets} />)}</div>}
     <Link className="underlined-link" to="/flashbook">view flashbook <span aria-hidden="true">↗</span></Link>
-  </>;
+  </section>;
 }
 function TattooPost({ assets }: { assets: ResolvedAsset[] }) {
   const [open, setOpen] = useState(false);
