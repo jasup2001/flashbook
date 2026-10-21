@@ -25,8 +25,17 @@ for (const origin of ['http://127.0.0.1:5174', 'http://127.0.0.1:4173']) {
   const result = await response.json();
   assert.equal(response.status, 400, JSON.stringify(result));
   assert.match(result.error, /valid email/);
+  const instagramPreflight = await fetch(`${url}/functions/v1/instagram-import`, { method: 'OPTIONS', headers: { Origin: origin } });
+  assert.equal(instagramPreflight.status, 204); assert.equal(instagramPreflight.headers.get('access-control-allow-origin'), origin);
+  const instagramDenied = await fetch(`${url}/functions/v1/instagram-import`, { method: 'POST',
+    headers: { Origin: origin, apikey: key, 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'status' }) });
+  assert.equal(instagramDenied.status, 401, 'a publishable key must never authorize instagram access');
 }
-console.log('passed: disabled signups, 51 originals, anonymous read/write restrictions, deployed endpoint validation');
+for (const rpc of ['instagram_connection_read', 'instagram_connection_save', 'instagram_import_save']) {
+  const result = await client.rpc(rpc, {});
+  assert(result.error, 'server-only instagram RPC must not be callable by visitors');
+}
+console.log('passed: disabled signups, 51 originals, anonymous restrictions, waitlist validation, instagram CORS and authorization');
 const privateAsset = process.argv[2];
 if (privateAsset) {
   assert.match(privateAsset, /^[0-9a-f-]{36}$/);

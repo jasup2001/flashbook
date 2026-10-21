@@ -25,7 +25,7 @@ Panel oferuje logowanie, wylogowanie i odzyskiwanie hasła. Wbudowany SMTP Supab
 
 Nowe pliki trafiają do prywatnego bucketu `portfolio-media`. RLS udostępnia gościom wyłącznie materiały powiązane z opublikowanymi pracami lub postami. Podpisane URL-e wygasają po 10 minutach; otwarte galerie odświeżają je co 5 minut. Poprzednio podpisany URL może działać do wygaśnięcia po ukryciu pracy. Stare statyczne oryginały były publiczne już wcześniej i pozostają dostępne pod ich adresami — ukrycie usuwa je z nowej galerii, nie z istniejącej strony produkcyjnej.
 
-Panel generuje miniatury 360/720/1200 px w przeglądarce, zachowując proporcje. Limit nowej grafiki: 20 MB; filmu: 50 MB. Obsługiwane typy: PNG/JPEG/WebP i MP4/WebM; zgodność kodeków wideo zależy od przeglądarki. Nie ma płatnej transformacji obrazów, transkodowania ani integracji z Instagramem.
+Panel generuje miniatury 360/720/1200 px w przeglądarce, zachowując proporcje. Limit nowej grafiki: 20 MB; filmu: 50 MB. Obsługiwane typy: PNG/JPEG/WebP i MP4/WebM; zgodność kodeków wideo zależy od przeglądarki. Nie ma płatnej transformacji obrazów ani transkodowania. Oficjalny import z Instagrama opisano w `../docs/instagram-import.md`.
 
 Biblioteka pozwala ponownie użyć grafik i przywrócić poprzedni oryginał po podmianie. Archiwizacja jest odwracalna. Trwałe kasowanie plików nie należy do tej wersji. W projekcie zachowano jeden zarchiwizowany testowy upload, jeden zarchiwizowany post i jedno zarchiwizowane zgłoszenie z testu końcowego. Żadna testowa praca ani testowy post nie są opublikowane.
 
@@ -46,6 +46,8 @@ node --env-file=.env.local scripts/check-backend.mjs
 ```
 
 `supabase/tests/access.sql` sprawdza RLS jako anon, zwykły użytkownik i właściciel, transakcyjny zapis karuzeli oraz snapshot zgłoszenia. Test uruchamia się na projekcie testowym przez `execute_sql`; wszystkie jego rekordy są wycofywane przez `ROLLBACK`. `check-backend.mjs` używa wyłącznie publishable key i potwierdza także wyłączoną rejestrację oraz działanie wdrożonego endpointu. Nie korzysta z sesji właściciela.
+
+`supabase/tests/instagram-access.sql` dodatkowo sprawdza niedostępność poświadczeń i RPC importu dla ról przeglądarkowych, szyfrowany zapis/odczyt Vault, transakcyjny szkic, blokadę duplikatów i niewidoczność szkicu dla gości. Używa wyłącznie sztucznego, niedziałającego tokenu i `ROLLBACK`; nie drukuje poświadczeń. Wymaga istniejącego prywatnego uploadu do próby powiązania slajdu.
 
 Migracje utworzono Supabase CLI i zastosowano w kolejności z `migrations/`. Nie uruchamiaj `seed.sql` na cudzym projekcie i nie resetuj istniejącej bazy. Wprowadzając nowe zmiany, utwórz nową migrację i sprawdź doradców bezpieczeństwa po jej zastosowaniu.
 

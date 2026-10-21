@@ -139,6 +139,15 @@ p, h1, h2 { margin: 0; }
 .admin-preserve-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; font-size: 13px; }
 .admin-snapshot { list-style: none; padding: 12px 0; font-size: 10px; overflow-wrap: anywhere; }
 .admin-post-editor { max-width: 760px; }
+.instagram-import { max-width: 900px; padding: 0 0 32px; border-bottom: 1px solid #ddd; font-size: 13px; line-height: 1.8; }
+.instagram-import h2 { font-size: 18px; font-weight: 400; }
+.instagram-import .admin-toolbar { border-bottom: 0; padding-bottom: 0; margin-bottom: 18px; }
+.instagram-link-form, .instagram-connection { display: grid; gap: 16px; margin: 24px 0; min-width: 0; }
+.instagram-link-form label, .instagram-connection label { display: grid; gap: 10px; min-width: 0; font-size: 12px; }
+.instagram-import input { width: 100%; min-width: 0; border: 0; border-bottom: 1px solid #bbb; background: #fff; color: #111; padding: 12px 0; font-size: 16px; }
+.instagram-import .submit-button { align-self: end; justify-content: center; }
+.instagram-connection .admin-button { justify-self: start; }
+@media (min-width: 760px) { .instagram-link-form { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px; } }
 .admin-slide-list { display: grid; gap: 24px; }
 .admin-slide { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 18px; }
 .admin-slide img { width: 96px; height: 120px; object-fit: contain; background: #fafafa; }

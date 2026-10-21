@@ -31,10 +31,12 @@ async function videoFrame(file: File) {
     return { source: video, width: video.videoWidth, height: video.videoHeight, cleanup: () => { video.removeAttribute('src'); video.load(); URL.revokeObjectURL(url); } };
   } catch (error) { URL.revokeObjectURL(url); throw error; }
 }
-export async function uploadMedia(file: File, imagesOnly = false) {
+export async function uploadMedia(file: File, imagesOnly = false, poster?: File) {
   const mime = await validateMedia(file, imagesOnly);
   const isImage = mime.startsWith('image/');
-  const bitmap = isImage ? await createImageBitmap(file) : null;
+  if (poster) await validateMedia(poster, true);
+  // Preserve Instagram's chosen reel cover while retaining the original video file.
+  const bitmap = isImage || poster ? await createImageBitmap(isImage ? file : poster!) : null;
   const frame = bitmap ? { source: bitmap, width: bitmap.width, height: bitmap.height, cleanup: () => bitmap.close() } : await videoFrame(file);
   if (!frame.width || !frame.height || frame.width * frame.height > 100_000_000) { frame.cleanup(); throw new Error('this image or video is too large to process.'); }
   const id = crypto.randomUUID();

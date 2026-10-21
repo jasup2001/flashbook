@@ -93,6 +93,9 @@ export type Database = {
           caption: string
           created_at: string
           id: string
+          instagram_id: string | null
+          instagram_permalink: string | null
+          instagram_timestamp: string | null
           sort_order: number
           status: string
         }
@@ -100,6 +103,9 @@ export type Database = {
           caption?: string
           created_at?: string
           id?: string
+          instagram_id?: string | null
+          instagram_permalink?: string | null
+          instagram_timestamp?: string | null
           sort_order?: number
           status?: string
         }
@@ -107,6 +113,9 @@ export type Database = {
           caption?: string
           created_at?: string
           id?: string
+          instagram_id?: string | null
+          instagram_permalink?: string | null
+          instagram_timestamp?: string | null
           sort_order?: number
           status?: string
         }
@@ -195,6 +204,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      instagram_connection_read: { Args: never; Returns: Json }
+      instagram_connection_save: {
+        Args: {
+          access_token: string
+          expiry: string
+          ig_user_id: string
+          ig_username: string
+        }
+        Returns: undefined
+      }
+      instagram_import_save: {
+        Args: {
+          asset_ids: string[]
+          media_id: string
+          media_permalink: string
+          media_timestamp: string
+        }
+        Returns: string
+      }
       is_portfolio_admin: { Args: never; Returns: boolean }
       reorder_portfolio: {
         Args: { ordered_ids: string[]; target: string }

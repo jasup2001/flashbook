@@ -4,6 +4,7 @@ import { uploadMedia } from './media';
 import { useRemote } from './useRemote';
 import { Feedback, LoadState, moved, StatusControl, useAction } from './controls';
 import { AssetPicker } from './AssetPicker';
+import { InstagramImport } from './InstagramImport';
 
 async function load() {
   const posts = await loadPosts();
@@ -19,11 +20,12 @@ export function TattoosManager() {
   if (editor) return <PostEditor key={editor === 'new' ? 'new' : editor.id} post={editor === 'new' ? null : editor}
     position={Math.max(0, ...(data ?? []).map(p => p.sort_order)) + 1} onClose={() => setEditor(null)} onSaved={() => { setEditor(null); reload(); }} />;
   return <section aria-label="manage tattoos">
+    <InstagramImport onImported={reload} />
     <div className="admin-toolbar"><button className="admin-button" onClick={() => setEditor('new')}>add post</button></div>
     <Feedback error={action.error} notice={action.notice} />
     {error || !data ? <LoadState error={error} reload={reload} /> : <div className="admin-design-grid">{data.map((post, index) => <article className="admin-design" key={post.id}>
       {post.slides[0] && <img loading="lazy" src={post.slides[0].asset.previews[0]?.src} alt="post cover" />}
-      <span className="admin-hint">{post.slides.length} slides</span>
+      <span className="admin-hint">{post.slides.length} {post.slides.length === 1 ? 'slide' : 'slides'}</span>
       <StatusControl status={post.status} disabled={action.busy} onChange={status => void action.run(async () => {
         if (status === 'published' && !post.slides.length) throw new Error('add at least one image or video first.');
         await setPublication('tattoo_posts', post.id, status); reload();

@@ -11,7 +11,7 @@ Przy zgłoszeniu zapisujemy stan kolejności galerii z chwili wysłania. Dzięki
 ## Sekcje panelu
 
 - `flashbook`: dodawanie prac, miniatury, podmiana grafiki, kolejność, szkic/publikacja, archiwizacja i przywracanie.
-- `tattoos`: posty, zdjęcia i filmy, kolejność slajdów, opis, okładka, szkic/publikacja i archiwizacja.
+- `tattoos`: posty bez opisów, zdjęcia i filmy, kolejność slajdów, okładka, szkic/publikacja i archiwizacja. Import linków do własnych postów i rolek Instagram opisano w `instagram-import.md`.
 - `waitlist`: zgłoszenia, wyszukiwanie, filtrowanie, szczegóły, prywatne notatki i statusy `new`, `contacted`, `accepted`, `archived`.
 - jedno konto administratora; bez publicznej rejestracji; logowanie, wylogowanie i odzyskiwanie dostępu.
 

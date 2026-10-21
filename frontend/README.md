@@ -64,6 +64,6 @@ Każdy projekt ma warianty 360, 720 i 1200 px (`srcset`/`sizes`). 51 oryginałó
 
 ## Zaplecze i publikacja
 
-Kod panelu jest w `src/features/admin`, klient i generowane typy w `src/lib`, a migracje, endpoint oraz testy RLS w `../supabase`. Szczegółowa konfiguracja i ograniczenia Free znajdują się w `../supabase/README.md`. Nie dodano integracji z Instagramem. Prawdziwe klucze pozostają poza Git.
+Kod panelu jest w `src/features/admin`, klient i generowane typy w `src/lib`, a migracje, endpointy oraz testy RLS w `../supabase`. Sekcja tattoos umożliwia import zdjęć, karuzel i rolek z linków do własnego konta @jasup2001, bez opisów. Jednorazowe połączenie i ograniczenia opisano w `../docs/instagram-import.md`. Prawdziwe klucze pozostają poza Git.
 
 Docelowy statyczny build dla Cloudflare Pages to `frontend/dist`, z komendą `pnpm build` uruchamianą w `frontend/`. Plik `_redirects` dotyczy wyłącznie tego przyszłego buildu. Podłączenie projektu, domeny i konfiguracja wdrożenia pozostają poza etapem 1. Nie publikuj gałęzi `redesign` jako obecnej strony GitHub Pages bez osobnej decyzji.
