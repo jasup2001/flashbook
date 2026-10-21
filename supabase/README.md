@@ -27,7 +27,7 @@ Nowe pliki trafiają do prywatnego bucketu `portfolio-media`. RLS udostępnia go
 
 Panel generuje miniatury 360/720/1200 px w przeglądarce, zachowując proporcje. Limit nowej grafiki: 20 MB; filmu: 50 MB. Obsługiwane typy: PNG/JPEG/WebP i MP4/WebM; zgodność kodeków wideo zależy od przeglądarki. Nie ma płatnej transformacji obrazów ani transkodowania. Oficjalny import z Instagrama opisano w `../docs/instagram-import.md`.
 
-Biblioteka pozwala ponownie użyć grafik i przywrócić poprzedni oryginał po podmianie. Archiwizacja jest odwracalna. Trwałe kasowanie plików nie należy do tej wersji. W projekcie zachowano jeden zarchiwizowany testowy upload, jeden zarchiwizowany post i jedno zarchiwizowane zgłoszenie z testu końcowego. Żadna testowa praca ani testowy post nie są opublikowane.
+Biblioteka pozwala ponownie użyć grafik i przywrócić poprzedni oryginał po podmianie. Archiwizacja jest odwracalna. W tattoos można również trwale usunąć post przyciskiem `delete`, po zatwierdzeniu w osobnym oknie. Usuwany jest post i jego powiązania slajdów; pliki oraz rekordy mediów pozostają do ponownego użycia. RLS ogranicza usuwanie do administratora. Trwałe kasowanie plików nie należy do tej wersji. W projekcie zachowano jeden zarchiwizowany testowy upload, jeden zarchiwizowany post i jedno zarchiwizowane zgłoszenie z testu końcowego. Żadna testowa praca ani testowy post nie są opublikowane.
 
 ## Formularz
 
@@ -48,6 +48,8 @@ node --env-file=.env.local scripts/check-backend.mjs
 `supabase/tests/access.sql` sprawdza RLS jako anon, zwykły użytkownik i właściciel, transakcyjny zapis karuzeli oraz snapshot zgłoszenia. Test uruchamia się na projekcie testowym przez `execute_sql`; wszystkie jego rekordy są wycofywane przez `ROLLBACK`. `check-backend.mjs` używa wyłącznie publishable key i potwierdza także wyłączoną rejestrację oraz działanie wdrożonego endpointu. Nie korzysta z sesji właściciela.
 
 `supabase/tests/instagram-access.sql` dodatkowo sprawdza niedostępność poświadczeń i RPC importu dla ról przeglądarkowych, szyfrowany zapis/odczyt Vault, transakcyjny szkic, blokadę duplikatów i niewidoczność szkicu dla gości. Używa wyłącznie sztucznego, niedziałającego tokenu i `ROLLBACK`; nie drukuje poświadczeń. Wymaga istniejącego prywatnego uploadu do próby powiązania slajdu.
+
+`supabase/tests/delete-post.sql` sprawdza odmowę usunięcia dla gościa i zwykłego konta, usunięcie wybranego syntetycznego posta przez administratora, kaskadowe usunięcie slajdów i zachowanie mediów. Całość kończy się `ROLLBACK` i nie usuwa rzeczywistych postów.
 
 Migracje utworzono Supabase CLI i zastosowano w kolejności z `migrations/`. Nie uruchamiaj `seed.sql` na cudzym projekcie i nie resetuj istniejącej bazy. Wprowadzając nowe zmiany, utwórz nową migrację i sprawdź doradców bezpieczeństwa po jej zastosowaniu.
 

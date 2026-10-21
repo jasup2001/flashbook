@@ -56,6 +56,11 @@ export async function publicFlashes(): Promise<Flash[]> {
 export async function setPublication(table: 'flash_designs' | 'tattoo_posts', id: string, status: PublicationStatus) {
   const { error } = await db().from(table).update({ status }).eq('id', id); check(error);
 }
+export async function deletePost(id: string) {
+  // RLS authorizes the owner. Post slides cascade; reusable media files are retained.
+  const { error } = await db().from('tattoo_posts').delete().eq('id', id).select('id').single();
+  check(error);
+}
 export async function reorder(target: 'flashbook' | 'tattoos', ids: string[]) {
   const { error } = await db().rpc('reorder_portfolio', { target, ordered_ids: ids }); check(error);
 }

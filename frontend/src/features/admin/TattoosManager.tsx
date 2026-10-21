@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { loadPosts, reorder, resolveAssets, savePost, setPublication, type Asset, type Post, type ResolvedAsset } from './api';
 import { uploadMedia } from './media';
 import { useRemote } from './useRemote';
 import { Feedback, LoadState, moved, StatusControl, useAction } from './controls';
 import { AssetPicker } from './AssetPicker';
 import { InstagramImport } from './InstagramImport';
+import { DeletePostDialog } from './DeletePostDialog';
 
 async function load() {
   const posts = await loadPosts();
@@ -16,12 +17,15 @@ type EditablePost = Omit<Post, 'slides'> & { slides: (Omit<Post['slides'][number
 export function TattoosManager() {
   const { data, error, reload } = useRemote(load, 300000);
   const [editor, setEditor] = useState<EditablePost | 'new' | null>(null);
+  const [deleting, setDeleting] = useState<EditablePost | null>(null);
+  const addButton = useRef<HTMLButtonElement>(null);
+  const restoreFocus = useCallback(() => addButton.current?.focus(), []);
   const action = useAction();
   if (editor) return <PostEditor key={editor === 'new' ? 'new' : editor.id} post={editor === 'new' ? null : editor}
     position={Math.max(0, ...(data ?? []).map(p => p.sort_order)) + 1} onClose={() => setEditor(null)} onSaved={() => { setEditor(null); reload(); }} />;
   return <section aria-label="manage tattoos">
     <InstagramImport onImported={reload} />
-    <div className="admin-toolbar"><button className="admin-button" onClick={() => setEditor('new')}>add post</button></div>
+    <div className="admin-toolbar"><button ref={addButton} className="admin-button" onClick={() => setEditor('new')}>add post</button></div>
     <Feedback error={action.error} notice={action.notice} />
     {error || !data ? <LoadState error={error} reload={reload} /> : <div className="admin-design-grid">{data.map((post, index) => <article className="admin-design" key={post.id}>
       {post.slides[0] && <img loading="lazy" src={post.slides[0].asset.previews[0]?.src} alt="post cover" />}
@@ -33,8 +37,11 @@ export function TattoosManager() {
       <div className="admin-actions"><button className="admin-button" onClick={() => setEditor(post)}>edit post</button>
         <button className="admin-button" disabled={action.busy || index === 0} aria-label="move post up" onClick={() => void action.run(async () => { await reorder('tattoos', moved(data, index, -1).map(p => p.id)); reload(); })}>↑</button>
         <button className="admin-button" disabled={action.busy || index === data.length - 1} aria-label="move post down" onClick={() => void action.run(async () => { await reorder('tattoos', moved(data, index, 1).map(p => p.id)); reload(); })}>↓</button>
+        <button className="admin-button" disabled={action.busy} onClick={() => setDeleting(post)}>delete</button>
       </div>
     </article>)}{!data.length && <p className="admin-hint">no posts yet.</p>}</div>}
+    {deleting && <DeletePostDialog id={deleting.id} cover={deleting.slides[0]?.asset.previews[0]?.src}
+      onClose={() => setDeleting(null)} onDeleted={() => { setDeleting(null); reload(); }} restoreFocus={restoreFocus} />}
   </section>;
 }
 function PostEditor({ post, position, onClose, onSaved }: { post: EditablePost | null; position: number; onClose: () => void; onSaved: () => void }) {
