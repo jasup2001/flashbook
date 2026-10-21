@@ -29,7 +29,7 @@ export function App() {
         <Route path="flashes" element={<Navigate to="/flashbook" replace />} />
         <Route path="tattoos" element={<Tattoos />} />
         <Route path="waitlist" element={<Waitlist />} />
-        <Route path="other" element={<Placeholder title="other" note="new shi soon" />} />
+        <Route path="other" element={<Placeholder title="other" note="new shi soon" hideHeading />} />
         <Route path="admin" element={<Suspense fallback={<p role="status">loading…</p>}><Admin /></Suspense>} />
         <Route path="*" element={<Placeholder title="404" eyebrow="not found" description="this page doesn't exist." note="head back home or explore the flashbook." />} />
       </Route>

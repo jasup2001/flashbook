@@ -73,7 +73,7 @@ describe('stage 1 portfolio', () => {
 
   it.each([['/tattoos', 'tattoos'], ['/other', 'other'], ['/admin', 'admin'], ['/missing', '404']])('provides the %s page', async (path, title) => {
     open(path);
-    if (path === '/tattoos') expect(await screen.findByRole('region', { name: title })).toBeInTheDocument();
+    if (path === '/tattoos' || path === '/other') expect(await screen.findByRole('region', { name: title })).toBeInTheDocument();
     else expect(await screen.findByRole('heading', { level: 1, name: title })).toBeInTheDocument();
   });
 

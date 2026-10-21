@@ -45,10 +45,12 @@ p, h1, h2 { margin: 0; }
 .empty-state { min-height: 48svh; border-top: 1px solid #dedede; padding: 42px 0 60px; max-width: 100%; }
 .empty-state h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 400; letter-spacing: -.055em; line-height: 1.15; margin-bottom: 18px; }
 .empty-state p { font-size: 14px; color: #666; max-width: 430px; line-height: 1.8; }
+.empty-state--no-heading { border-top: 0; }
 .underlined-link { display: inline-flex; gap: 50px; font-size: 13px; padding: 12px 0 8px; border-bottom: 1px solid #111; margin-top: 34px; }
 .empty-state > .underlined-link:first-child { margin-top: 0; }
 .waitlist-layout { border-top: 1px solid #dedede; padding-top: 36px; }
 .waitlist-form { width: 100%; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+.waitlist-intro { font-size: 13px; line-height: 1.8; }
 .waitlist-form label { display: flex; flex-direction: column; gap: 12px; font-size: 12px; letter-spacing: .015em; line-height: 1.6; }
 .waitlist-form input, .waitlist-form textarea { width: 100%; min-height: 44px; padding: 10px 0; border: 0; border-bottom: 1px solid #bbb; color: #111; background: #fff; font-size: 16px; }
 .waitlist-form textarea { resize: vertical; min-height: 100px; }

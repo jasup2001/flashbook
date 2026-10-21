@@ -30,10 +30,11 @@ export function Waitlist() {
     <PageHeading title="waitlist" />
     <div className="waitlist-layout">
       <form className="waitlist-form" onSubmit={submit} onChange={() => { setChecked(false); setSent(false); setError(''); }}>
+        <p className="waitlist-intro">leave your details and tattoo idea below. i'll get in touch when i'm planning appointments in your city or country.</p>
         <div className="form-trap" aria-hidden="true"><label>website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <label>your instagram nickname<input name="instagram" autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} required maxLength={100} placeholder="@your_nickname" /></label>
         <label>email<input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@email.com" /></label>
-        <label>your idea<textarea name="idea" rows={4} required maxLength={3000} placeholder="design number, chosen design or a few words about your idea…" /></label>
+        <label>your idea<textarea name="idea" rows={4} required maxLength={3000} placeholder="chosen design or a few words about your idea…" /></label>
         <div className="form-row"><label>placement <span className="optional">(optional)</span><input name="placement" maxLength={100} placeholder="e.g. forearm" /></label><label>size <span className="optional">(optional)</span><input name="size" maxLength={100} placeholder="e.g. 10 × 15 cm" /></label></div>
         <button className="submit-button" type="submit" disabled={busy}>{busy ? 'sending…' : supabase ? 'send request' : 'check form'} <span aria-hidden="true">↗</span></button>
         {sent && <p className="form-status" role="status">your request has been received. thank you.</p>}
