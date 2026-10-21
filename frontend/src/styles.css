@@ -160,8 +160,8 @@ p, h1, h2 { margin: 0; }
 .form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .tattoo-feed { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(4px, 1.5vw, 18px); }
 .tattoo-tile { min-width: 0; }
-.tattoo-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; aspect-ratio: 3 / 4; overflow: hidden; background: #fafafa; }
-.tattoo-cover img { width: 100%; height: 100%; object-fit: cover; }
+.tattoo-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; aspect-ratio: 3 / 4; overflow: hidden; background: #fff; }
+.tattoo-cover img { width: 100%; height: 100%; object-fit: contain; }
 .tattoo-cover__badge { position: absolute; top: 8px; right: 8px; color: #fff; background: rgb(0 0 0 / .65); font-size: 18px; line-height: 1; padding: 3px 5px; }
 .tattoo-dialog { position: fixed; inset: 0; margin: 0; padding: 0 16px 24px; width: 100%; height: 100dvh; max-width: none; max-height: none; border: 0; background: #fff; color: #111; }
 .tattoo-dialog::backdrop { background: #fff; }
@@ -169,7 +169,7 @@ p, h1, h2 { margin: 0; }
 .tattoo-dialog .tattoo-post { max-width: 760px; margin: 0 auto; }
 .tattoo-dialog .tattoo-image img, .tattoo-dialog .tattoo-carousel video { max-height: calc(100dvh - 175px); }
 .tattoo-post { min-width: 0; display: grid; gap: 20px; }
-.tattoo-carousel { min-width: 0; background: #fafafa; }
+.tattoo-carousel { min-width: 0; background: #fff; }
 .tattoo-image { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; }
 .tattoo-image img, .tattoo-carousel video { display: block; width: 100%; max-height: 80svh; object-fit: contain; }
 .tattoo-paging { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
