@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { Layout } from '../components/Layout';
 import { Home } from '../pages/Home';
-import { Flashbook } from '../pages/Flashbook';
-import { Waitlist } from '../pages/Waitlist';
 import { Placeholder } from '../pages/Placeholder';
+const Flashbook = lazy(() => import('../pages/Flashbook').then(module => ({ default: module.Flashbook })));
+const Waitlist = lazy(() => import('../pages/Waitlist').then(module => ({ default: module.Waitlist })));
+const Tattoos = lazy(() => import('../pages/Tattoos').then(module => ({ default: module.Tattoos })));
+const Admin = lazy(() => import('../pages/Admin'));
 
 function RouteEffects() {
   const { pathname } = useLocation();
@@ -20,17 +22,17 @@ function RouteEffects() {
 export function App() {
   return <>
     <RouteEffects />
-    <Routes>
+    <Suspense fallback={<p className="viewer-pending" role="status">loading…</p>}><Routes>
       <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
         <Route path="flashbook" element={<Flashbook />} />
         <Route path="flashes" element={<Navigate to="/flashbook" replace />} />
-        <Route path="tattoos" element={<Placeholder title="tattoos" />} />
+        <Route path="tattoos" element={<Tattoos />} />
         <Route path="waitlist" element={<Waitlist />} />
         <Route path="other" element={<Placeholder title="other" note="new shi soon" />} />
-        <Route path="admin" element={<Placeholder title="admin" eyebrow="coming soon" description="the admin panel is coming in a later stage." note="managing media and submissions will require authentication. the panel is not available yet." />} />
+        <Route path="admin" element={<Suspense fallback={<p role="status">loading…</p>}><Admin /></Suspense>} />
         <Route path="*" element={<Placeholder title="404" eyebrow="not found" description="this page doesn't exist." note="head back home or explore the flashbook." />} />
       </Route>
-    </Routes>
+    </Routes></Suspense>
   </>;
 }

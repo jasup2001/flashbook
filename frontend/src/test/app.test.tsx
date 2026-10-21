@@ -16,12 +16,14 @@ describe('stage 1 portfolio', () => {
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
     expect(screen.getAllByRole('link').map((link) => link.textContent)).toEqual(['flashbook', 'tattoos', 'waitlist', 'other']);
     await userEvent.click(screen.getByRole('link', { name: 'flashbook' }));
-    expect(screen.getByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
+    await screen.findByRole('button', { name: 'open design 01' });
     expect(screen.getAllByRole('button', { name: /open design/ })).toHaveLength(51);
   });
 
-  it.each(['/flashbook', '/flashes'])('serves responsive thumbnails at %s, including the legacy redirect', (path) => {
+  it.each(['/flashbook', '/flashes'])('serves responsive thumbnails at %s, including the legacy redirect', async (path) => {
     open(path);
+    await screen.findByRole('button', { name: 'open design 01' });
     expect(screen.getByRole('heading', { name: 'flashbook' })).toBeInTheDocument();
     const images = screen.getAllByRole('img');
     expect(images).toHaveLength(51);
@@ -36,6 +38,7 @@ describe('stage 1 portfolio', () => {
   it('opens HQ on demand, navigates by keyboard and swipe, closes and returns focus', async () => {
     open('/flashbook');
     const user = userEvent.setup();
+    await screen.findByRole('button', { name: 'open design 01' });
     const opener = screen.getAllByRole('button', { name: /open design/ })[0];
     await user.click(opener);
     const dialog = await screen.findByRole('dialog', { name: 'design preview' });
@@ -58,6 +61,7 @@ describe('stage 1 portfolio', () => {
 
   it('falls back to a thumbnail when the HQ original fails', async () => {
     open('/flashbook');
+    await screen.findByRole('button', { name: 'open design 01' });
     await userEvent.click(screen.getAllByRole('button', { name: /open design/ })[0]);
     const dialog = await screen.findByRole('dialog');
     fireEvent.error(dialog.querySelector('.viewer__preload')!);
@@ -67,15 +71,15 @@ describe('stage 1 portfolio', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it.each([['/tattoos', 'tattoos'], ['/other', 'other'], ['/admin', 'admin'], ['/missing', '404']])('provides the %s placeholder', (path, title) => {
+  it.each([['/tattoos', 'tattoos'], ['/other', 'other'], ['/admin', 'admin'], ['/missing', '404']])('provides the %s page', async (path, title) => {
     open(path);
-    expect(screen.getByRole('heading', { level: 1, name: title })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: title })).toBeInTheDocument();
   });
 
   it('validates the form as a local preview without claiming a submission', async () => {
     open('/waitlist');
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText('your instagram nickname'), '@test_artist');
+    await user.type(await screen.findByLabelText('your instagram nickname'), '@test_artist');
     await user.type(screen.getByLabelText('email'), 'test@example.com');
     await user.type(screen.getByLabelText('your idea'), 'design 01');
     await user.click(screen.getByRole('button', { name: /check form/ }));

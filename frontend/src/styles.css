@@ -3,7 +3,7 @@
 :root { font-family: 'Courier New', Courier, monospace; color: #111; background: #fff; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; font-weight: 400; }
 * { box-sizing: border-box; }
 body { margin: 0; }
-button, input, textarea { font: inherit; }
+button, input, textarea, select { font: inherit; }
 button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
 button { color: inherit; cursor: pointer; }
@@ -105,3 +105,57 @@ p, h1, h2 { margin: 0; }
   .viewer__toolbar { padding-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+.admin-login { max-width: 420px; padding: 22px 0 60px; }
+.admin-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; padding: 18px 0; border-bottom: 1px solid #dedede; margin-bottom: 28px; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 20px; }
+.admin-tabs button { border: 0; border-bottom: 1px solid transparent; padding: 12px 0; font-size: 13px; min-height: 44px; }
+.admin-tabs button[aria-current] { border-bottom-color: #111; }
+.admin-button { display: inline-flex; align-items: center; justify-content: center; border: 1px solid #bbb; min-height: 44px; padding: 10px 14px; font-size: 12px; background: #fff; }
+.admin-button:hover { border-color: #111; }
+.admin-upload { position: relative; overflow: hidden; cursor: pointer; }
+.admin-upload input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.admin-upload:focus-within { outline: 2px solid #111; outline-offset: 3px; }
+.admin-inline-label { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 12px; }
+.admin-inline-label input, .admin-inline-label select, .admin-detail select, .admin-detail textarea, .admin-post-editor textarea { max-width: 100%; min-height: 44px; padding: 10px; border: 1px solid #bbb; color: #111; background: #fff; border-radius: 0; font-size: 14px; }
+.admin-hint { font-size: 12px; line-height: 1.7; color: #666; margin: 18px 0; }
+.admin-notice { display: grid; gap: 18px; justify-items: start; font-size: 13px; line-height: 1.8; }
+.admin-design-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 32px 24px; padding-top: 18px; }
+.admin-design { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 24px; border-bottom: 1px solid #ddd; font-size: 13px; overflow-wrap: anywhere; }
+.admin-design > img { width: 100%; height: 280px; object-fit: contain; background: #fafafa; }
+.admin-design__title { font-size: 14px; }
+.admin-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.admin-inbox { display: grid; gap: 36px; }
+.admin-entries { display: grid; align-content: start; }
+.admin-entry { display: grid; gap: 12px; text-align: left; border: 0; border-bottom: 1px solid #ddd; padding: 20px 12px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.admin-entry[aria-pressed="true"] { background: #f3f3f3; box-shadow: inset 2px 0 #111; }
+.admin-entry span:nth-child(2) { color: #666; font-size: 11px; }
+.admin-detail, .admin-post-editor { display: flex; flex-direction: column; gap: 24px; min-width: 0; font-size: 13px; line-height: 1.8; }
+.admin-detail { padding-top: 18px; }
+.admin-detail h2, .admin-post-editor h2 { font-size: 20px; font-weight: 400; }
+.admin-detail label, .admin-post-editor > label:not(.admin-upload) { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.admin-detail a, .admin-detail p, .admin-detail summary { overflow-wrap: anywhere; }
+.admin-detail time { color: #666; font-size: 11px; }
+.admin-preserve-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; font-size: 13px; }
+.admin-snapshot { list-style: none; padding: 12px 0; font-size: 10px; overflow-wrap: anywhere; }
+.admin-post-editor { max-width: 760px; }
+.admin-slide-list { display: grid; gap: 24px; }
+.admin-slide { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 18px; }
+.admin-slide img { width: 96px; height: 120px; object-fit: contain; background: #fafafa; }
+.form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.tattoo-feed { max-width: 720px; margin: 0 auto; display: grid; gap: 64px; }
+.tattoo-post { min-width: 0; display: grid; gap: 20px; }
+.tattoo-carousel { min-width: 0; background: #fafafa; }
+.tattoo-image { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; }
+.tattoo-image img, .tattoo-carousel video { display: block; width: 100%; max-height: 80svh; object-fit: contain; }
+.tattoo-paging { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+.asset-picker { width: min(920px, 95vw); max-height: 90dvh; padding: 20px; border: 1px solid #111; color: #111; background: #fff; }
+.asset-picker::backdrop { background: rgb(255 255 255 / .9); }
+.asset-picker h2 { font-size: 20px; font-weight: 400; }
+.asset-picker__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 24px; }
+.asset-picker__item { display: grid; align-content: start; gap: 10px; font-size: 11px; padding: 0 0 16px; border: 0; border-bottom: 1px solid #ddd; text-align: left; overflow-wrap: anywhere; }
+.asset-picker__item img { width: 100%; height: 180px; object-fit: contain; background: #fafafa; }
+.admin-catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 20px; padding: 20px 0; }
+.admin-catalog a { display: grid; gap: 8px; font-size: 11px; }
+.admin-catalog img { width: 100%; height: 130px; object-fit: contain; background: #fafafa; }
+@media (min-width: 760px) { .admin-inbox { grid-template-columns: minmax(220px, 1fr) minmax(0, 1.7fr); } }

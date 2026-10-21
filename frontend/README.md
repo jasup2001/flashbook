@@ -1,6 +1,6 @@
-# JASUP2001 — frontend / etap 1
+# jasup2001 — frontend i panel administracyjny
 
-Minimalistyczny frontend React + TypeScript + Vite, rozwijany wyłącznie na gałęzi `redesign`. Katalog główny repozytorium nadal zawiera oryginalną stronę Jekyll. Nie zmieniono konfiguracji GitHub Pages ani DNS i niczego nie wdrożono.
+Minimalistyczny frontend React + TypeScript + Vite, rozwijany wyłącznie na gałęzi `redesign`. Katalog główny nadal zawiera oryginalną stronę Jekyll. Frontend nie został opublikowany; GitHub Pages i DNS pozostają bez zmian. Nowy projekt Supabase Free obsługuje dane i logowanie.
 
 ## Uruchomienie lokalne
 
@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Otwórz adres wypisany przez Vite (domyślnie http://127.0.0.1:5173). Pierwsze uruchomienie przygotowuje 153 miniatury WebP i kopie oryginałów; może potrwać kilkadziesiąt sekund. Nie wymaga pliku `.env`, kluczy API ani kont w usługach zewnętrznych.
+Otwórz http://127.0.0.1:5174. Port jest stały, aby zgadzał się z konfiguracją Auth i CORS. Pierwsze uruchomienie przygotowuje 153 miniatury WebP i kopie oryginałów; może potrwać kilkadziesiąt sekund. Lokalny podgląd statycznej galerii nie wymaga konta; pełny panel i zapisywanie zgłoszeń wymagają ignorowanego `.env.local`, opisanego w `../supabase/README.md`. Obecna kopia robocza ma już tę konfigurację.
 
 ```sh
 pnpm test       # przygotowanie assetów i testy
@@ -24,14 +24,16 @@ pnpm preview   # lokalny podgląd produkcyjnego dist/
 
 `pnpm assets` odtwarza same assety i manifest. `dev`, `test` i `build` uruchamiają ten krok automatycznie. Wygenerowane pliki i `dist/` nie trafiają do Git.
 
+`pnpm preview` udostępnia ostatni build pod http://127.0.0.1:4173. Po zmianie kodu ponownie uruchom `pnpm build`. Panel jest pod `/admin`; nie ma linku do niego w publicznej nawigacji. Reset hasła z podglądu lokalnego wraca do skonfigurowanego adresu http://127.0.0.1:5174/admin, więc do tego kroku uruchom również `pnpm dev`.
+
 ## Co można obejrzeć
 
 - `/` — wyłącznie niezmienione logo `logo2.png` i cztery linki.
 - `/flashbook` — wszystkie 51 oryginalnych projektów, responsywne miniatury, lazy loading, pełnoekranowy dialog, oryginalna jakość na żądanie, zoom 1–6×, przesuwanie powiększonego obrazu, pinch, double click/tap, swipe między arkuszami przy powiększeniu 100%, strzałki i Esc. Dialog zatrzymuje fokus i po zamknięciu oddaje go wybranemu arkuszowi. Dawny adres `/flashes` przekierowuje na `/flashbook`.
-- `/tattoos` — placeholder przyszłej galerii zdjęć/wideo i karuzel. Nie użyto flashów jako fikcyjnych zdjęć wykonanych tatuaży.
-- `/waitlist` — lokalny podgląd formularza z walidacją przeglądarki. Nie wysyła, nie zapisuje danych i nie obiecuje przyjęcia zgłoszenia.
+- `/tattoos` — opublikowane posty ze zdjęciami, wideo i karuzelami. Dopóki nie opublikujesz postów, pozostają nagłówek i link do flashbooka.
+- `/waitlist` — zapis zgłoszeń przez walidowany endpoint Supabase; bez konfiguracji działa wyłącznie podgląd formularza.
 - `/other` — miejsce na przyszłe projekty.
-- `/admin` — wyłącznie komunikat, że panel nie jest dostępny. Nie jest to prywatny panel; nie ma danych, autoryzacji ani operacji administracyjnych. Trasa nie występuje w publicznej nawigacji.
+- `/admin` — prywatny panel: logowanie, flashbook, biblioteka mediów, posty tattoos i zgłoszenia. Uprawnienia są sprawdzane w bazie przez RLS.
 - Nieznane adresy — strona 404 z powrotem do galerii.
 
 ## Struktura
@@ -60,8 +62,8 @@ Oryginały w `../img/` oraz logo i favicon w katalogu głównym są jedynymi źr
 
 Każdy projekt ma warianty 360, 720 i 1200 px (`srcset`/`sizes`). 51 oryginałów waży 86,72 MiB, a komplet wariantów 360 px 1,86 MiB (~98% mniej), 720 px 6,18 MiB (~93% mniej). Przeglądarka wybiera jeden wariant według szerokości i gęstości ekranu. Oryginał ładuje się dopiero w viewerze; do tego czasu widać WebP. Logo główne pozostaje oryginalnym PNG.
 
-## Późniejsze etapy
+## Zaplecze i publikacja
 
-Po zatwierdzeniu wyglądu można dodać moduły `features/tattoos`, `features/waitlist` i `features/admin` oraz osobną warstwę dostępu do Supabase. Obecnie nie ma SDK Supabase, backendu, integracji z Instagramem ani sekretów.
+Kod panelu jest w `src/features/admin`, klient i generowane typy w `src/lib`, a migracje, endpoint oraz testy RLS w `../supabase`. Szczegółowa konfiguracja i ograniczenia Free znajdują się w `../supabase/README.md`. Nie dodano integracji z Instagramem. Prawdziwe klucze pozostają poza Git.
 
 Docelowy statyczny build dla Cloudflare Pages to `frontend/dist`, z komendą `pnpm build` uruchamianą w `frontend/`. Plik `_redirects` dotyczy wyłącznie tego przyszłego buildu. Podłączenie projektu, domeny i konfiguracja wdrożenia pozostają poza etapem 1. Nie publikuj gałęzi `redesign` jako obecnej strony GitHub Pages bez osobnej decyzji.

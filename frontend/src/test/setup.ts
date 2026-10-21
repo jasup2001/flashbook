@@ -3,9 +3,11 @@ import { cleanup } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
 
 afterEach(cleanup);
-window.scrollTo = vi.fn();
-HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
-HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); };
+if (typeof window !== 'undefined') {
+  window.scrollTo = vi.fn();
+  HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
+  HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); };
+}
 globalThis.ResizeObserver = class {
   observe() {}
   unobserve() {}

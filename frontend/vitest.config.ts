@@ -3,5 +3,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  test: { environment: 'jsdom', setupFiles: ['./src/test/setup.ts'], restoreMocks: true },
+  test: { environment: 'jsdom', setupFiles: ['./src/test/setup.ts'], restoreMocks: true,
+    env: { VITE_SUPABASE_URL: '', VITE_SUPABASE_PUBLISHABLE_KEY: '' } },
 });

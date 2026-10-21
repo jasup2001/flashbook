@@ -11,7 +11,7 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
   const [scale, setScale] = useState(1);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const scaleRef = useRef(1);
-  const flash = flashes[index];
+  const flash = flashes[Math.min(index, flashes.length - 1)];
   const go = useCallback((direction: number) => {
     setIndex((current) => (current + direction + flashes.length) % flashes.length);
     setLoaded(false);
