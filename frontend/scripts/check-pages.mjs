@@ -13,6 +13,10 @@ for (const route of routes) {
   assert(script, `missing compiled app script at /${route}`);
   await readFile(resolve(dist, script[1].slice(1)));
   assert(!html.includes('/src/main.tsx'), 'source entry was not built');
+  assert(html.includes('property="og:title" content="jasup2001site digital archive"'), `missing share title at /${route}`);
+  assert(html.includes('property="og:image" content="https://jasup2001.site/logo2.png"'), `missing share logo at /${route}`);
+  assert(html.includes(`property="og:url" content="https://jasup2001.site/${route}"`), `wrong share URL at /${route}`);
+  assert(html.includes(`rel="canonical" href="https://jasup2001.site/${route}"`), `wrong canonical URL at /${route}`);
 }
 assert.equal((await readFile(resolve(dist, 'CNAME'), 'utf8')).trim(), 'jasup2001.site');
 assert.equal(await readFile(resolve(dist, '404.html'), 'utf8'), await readFile(resolve(dist, 'index.html'), 'utf8'));

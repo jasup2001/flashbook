@@ -11,7 +11,10 @@ const routes = ['flashbook', 'flashes', 'tattoos', 'waitlist', 'other', 'admin']
 for (const route of routes) {
   const folder = resolve(dist, route);
   await mkdir(folder, { recursive: true });
-  const html = index.replace('<title>jasup2001</title>', `<title>${route} — jasup2001</title>`);
+  const routeUrl = `https://jasup2001.site/${route}/`;
+  const html = index.replace(/<title>[^<]*<\/title>/, `<title>${route} — jasup2001</title>`)
+    .replace('rel="canonical" href="https://jasup2001.site/"', `rel="canonical" href="${routeUrl}"`)
+    .replace('property="og:url" content="https://jasup2001.site/"', `property="og:url" content="${routeUrl}"`);
   await writeFile(resolve(folder, 'index.html'), html);
 }
 await copyFile(resolve(dist, 'index.html'), resolve(dist, '404.html'));
