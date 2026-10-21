@@ -1,6 +1,6 @@
 # jasup2001 — frontend i panel administracyjny
 
-Minimalistyczny frontend React + TypeScript + Vite, rozwijany wyłącznie na gałęzi `redesign`. Katalog główny nadal zawiera oryginalną stronę Jekyll. Frontend nie został opublikowany; GitHub Pages i DNS pozostają bez zmian. Nowy projekt Supabase Free obsługuje dane i logowanie.
+Minimalistyczny frontend React + TypeScript + Vite, rozwijany na gałęzi `redesign` i publikowany przez GitHub Pages pod `https://jasup2001.site`. Katalog główny i gałąź `main` zachowują oryginalną stronę Jekyll. Supabase Free obsługuje dane i logowanie. Publikacja używa istniejącej domeny bez zmiany DNS; szczegóły i powrót do poprzedniej wersji opisano w `../docs/deployment.md`.
 
 ## Uruchomienie lokalne
 
@@ -66,4 +66,4 @@ Każdy projekt ma warianty 360, 720 i 1200 px (`srcset`/`sizes`). 51 oryginałó
 
 Kod panelu jest w `src/features/admin`, klient i generowane typy w `src/lib`, a migracje, endpointy oraz testy RLS w `../supabase`. Sekcja tattoos umożliwia import zdjęć, karuzel i rolek z linków do własnego konta @jasup2001, bez opisów. Jednorazowe połączenie i ograniczenia opisano w `../docs/instagram-import.md`. Prawdziwe klucze pozostają poza Git.
 
-Docelowy statyczny build dla Cloudflare Pages to `frontend/dist`, z komendą `pnpm build` uruchamianą w `frontend/`. Plik `_redirects` dotyczy wyłącznie tego przyszłego buildu. Podłączenie projektu, domeny i konfiguracja wdrożenia pozostają poza etapem 1. Nie publikuj gałęzi `redesign` jako obecnej strony GitHub Pages bez osobnej decyzji.
+Statyczny build to `frontend/dist`, z komendą `pnpm build` uruchamianą w `frontend/`. `postbuild` przygotowuje wejścia podstron dla GitHub Pages, `CNAME`, `.nojekyll`, stronę 404 i kopie starych URL-i grafik. Workflow publikuje zmiany wysłane na `redesign`, używając konfiguracji frontendu z sekretów GitHub Actions. Plik `_redirects` zachowano dla ewentualnego przyszłego hostingu Cloudflare.

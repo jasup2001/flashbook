@@ -16,6 +16,8 @@
     "test": "vitest run",
     "prebuild": "node scripts/prepare-assets.mjs",
     "build": "tsc --noEmit && vite build",
+    "postbuild": "pnpm pages",
+    "pages": "node scripts/prepare-pages.mjs && node scripts/check-pages.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {

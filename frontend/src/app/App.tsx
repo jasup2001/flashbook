@@ -11,7 +11,7 @@ const Admin = lazy(() => import('../pages/Admin'));
 function RouteEffects() {
   const { pathname } = useLocation();
   useEffect(() => {
-    const name = pathname.slice(1).toLowerCase();
+    const name = pathname.slice(1).replace(/\/+$/, '').toLowerCase();
     document.title = name ? `${name} — jasup2001` : 'jasup2001';
     window.scrollTo(0, 0);
     if (pathname !== '/') document.getElementById('content')?.focus({ preventScroll: true });
