@@ -9,6 +9,7 @@ const routes = ['', 'flashbook/', 'flashes/', 'tattoos/', 'waitlist/', 'other/',
 for (const route of routes) {
   const html = await readFile(resolve(dist, route, 'index.html'), 'utf8');
   assert(html.includes('<div id="root"></div>'), `missing app entry at /${route}`);
+  assert(html.includes(`<title>${route ? route.replace(/\/$/, '') : 'jasup2001.site'}</title>`), `wrong browser title at /${route}`);
   const script = html.match(/src="(\/assets\/[^" ]+\.js)"/);
   assert(script, `missing compiled app script at /${route}`);
   await readFile(resolve(dist, script[1].slice(1)));
