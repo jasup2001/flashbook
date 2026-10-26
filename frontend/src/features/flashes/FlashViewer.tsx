@@ -64,7 +64,7 @@ export default function FlashViewer({ flashes, initialIndex, onClose }: { flashe
             <img className="viewer__image" src={loaded ? flash.original : flash.thumbnails.at(-1)!.src} alt={`design ${flash.number}`} draggable={false} />
           </TransformComponent>
           {!loaded && !failed && <img key={flash.original} className="viewer__preload" src={flash.original} alt="" aria-hidden="true" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
-          <span className="viewer__quality" role="status">{failed ? 'could not load the original. showing a preview.' : loaded ? 'original quality' : 'loading original…'}</span>
+          <span className="viewer__quality" role="status">{failed ? 'could not load the original. showing a preview.' : loaded ? 'source resolution' : 'loading original…'}</span>
         </div>
         <div className="viewer__toolbar">
           <div className="viewer__paging"><button onClick={() => go(-1)} aria-label="previous design">←</button><span aria-live="polite">{flash.number} / {flashes.length}</span><button onClick={() => go(1)} aria-label="next design">→</button></div>
